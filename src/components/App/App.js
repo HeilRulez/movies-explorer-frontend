@@ -1,4 +1,22 @@
-<div className="page">
+import {useState, useEffect} from 'react';
+import {Route, Switch, useHistory} from 'react-router-dom';
+import Header from './Header';
+import Main from './Main';
+import Footer from './Footer';
+import Login from './Login';
+import Register from './Register';
+import api from '../utils/Api';
+
+export default function App() {
+
+
+  return (
+    <div className="app">
+        <Header logOut={handleOut}/>
+    </div>
+  );
+}
+{/* <div className="page">
         <Header logOut={handleOut}/>
           <Switch>
             <Route path='/signin'>
@@ -41,4 +59,4 @@
             <InfoTooltip isOpen={isInfoShow} onClose={closeAllPopups} infoMessage={infoMessage} infoState={infoState} />
 
             <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-    </div>
+    </div> */}
