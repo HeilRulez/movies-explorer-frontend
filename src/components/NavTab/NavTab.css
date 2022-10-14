@@ -1,0 +1,14 @@
+.nav-tab {
+    
+}
+
+.nav-tab__link {
+    background-color: #E8E8E8;
+    color: #fff;
+    border-radius: 10px;
+    border: 0;
+    width: 96px;
+    height: 36px;
+    margin: 0 5px;
+    padding: 0;
+}

@@ -1,0 +1,7 @@
+.main {
+    min-width: 100%;
+    min-height: min-content;
+    background-color: blue;
+    margin: 0 auto;
+    padding: 0;
+}

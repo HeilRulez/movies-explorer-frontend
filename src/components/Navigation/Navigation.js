@@ -1,16 +1,12 @@
-import {useContext} from 'react';
-import {useHistory, Switch, Route, Link} from 'react-router-dom';              
+import {Routes, Route, Link} from 'react-router-dom';              
 
 export default function Header ({loggedIn}) {
 
     return (
-                
-            <Switch>
-                <Route path='/in'>
-                    <Link className="header__link" to='/all-films'>Фильмы</Link> 
-                    <Link className="header__link" to='/save-films'>Сохранённые фильмы</Link> 
-                    <Link className="header__link" to='/profile'>Аккаунт</Link> 
-                </Route>
-            </Switch>
+            <nav>
+                <Link className="header__link" to='/signin'>Фильмы</Link>
+                <Link className="header__link" to='/signup'>Сохранённые фильмы</Link>
+                <Link className="header__link header__link_buttnon" to='/signup'>Аккаунт</Link>
+            </nav>
     )
 }
