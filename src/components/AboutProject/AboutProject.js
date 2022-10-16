@@ -1,7 +1,9 @@
+import Title from '../Title/Title.js';
+
 export default function AboutProject() {
     return (
         <section className='about-project'>
-            <h2 className='about-project__header'>О проекте</h2>
+            <Title name={'О проекте'} />
             <div className='about-project__content'>
                 <h4 className='about-project__text'>Дипломный проект включал 5 этапов</h4>
                 <p className='about-project__text-description'>Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>

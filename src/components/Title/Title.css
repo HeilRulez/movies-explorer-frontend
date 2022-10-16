@@ -1,0 +1,12 @@
+.title {
+    border-bottom: 2px solid #000;
+}
+
+.title__header {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    color: #000;
+}
