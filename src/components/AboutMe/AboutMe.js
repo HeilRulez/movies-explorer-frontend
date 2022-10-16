@@ -1,3 +1,4 @@
+import './AboutMe.css';
 import Portfolio from '../Portfolio/Portfolio.js';
 
 export default function AboutMe() {

@@ -1,11 +1,58 @@
-.about-project {}
+.about-project {
+    padding: 0 70px 100px;
+}
 
-.about-project__content{}
+.about-project__content {
+    min-height: 270px;
+    display: grid;
+    grid: min-content / 50% 50%;
+    padding: 0;
+}
 
-.about-project__text{}
+.about-project__plan {
+    display: grid;
+    grid: repeat(2, 36px) / 20% 80%;
+    align-items: center;
+}
 
-.about-project__text-description {}
+.about-project__text {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000;
+    margin: 0;
+    padding: 70px 0 26px;
+}
 
-.about-project__text-item {}
+.about-project__text-item {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000;
+    background-color: #F2F2F2;
+    margin: 0;
+    padding: 9px;
+    box-sizing: border-box;
+    text-align: center;
+    height: 100%;
+}
 
-.about-project__text-item_description{}
+.about-project__text-item:nth-child(1) {
+    background-color: #2BE080;
+}
+
+.about-project__text-item_description {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #A0A0A0;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
