@@ -1,7 +1,7 @@
 import './Techs.css';
-import HeaderTextOne from '../HeaderTextOne/HeaderTextOne.js';
+import HeaderTextOne from '../TitleText/TitleText.js';
 import HeaderTextTwo from '../HeaderTextTwo/HeaderTextTwo.js';
-import DescriptionText from '../DescriptionText/DescriptionText.js';
+// import DescriptionText from '../DescriptionText/DescriptionText.js';
 
 export default function Techs() {
 
@@ -21,7 +21,7 @@ export default function Techs() {
         <section className='techs'>
             <HeaderTextOne text={'Технологии'} />
             <HeaderTextTwo tagetStyle={headerTwoStyle} text={'7 технологий'} />
-            <DescriptionText tagetStyle={DesStyle} text={'На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.'} />
+            {/* <DescriptionText tagetStyle={DesStyle} text={'На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.'} /> */}
         </section>
     );
 }

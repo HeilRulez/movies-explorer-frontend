@@ -7,14 +7,16 @@ import Footer from '../Footer/Footer.js';
 export default function App() {
 
  const [loggedIn, setLoggedIn] = useState(true);
+ const [colorStyle, setColorStyle] = useState('#2BE080');
 
  function f() {
   setLoggedIn(true);
  };
+
   return (
     <div className="app">
-        <Header loggedIn={loggedIn} />
-        <Main />
+        <Header loggedIn={loggedIn} colorStyle={colorStyle} />
+        <Main colorStyle={colorStyle} />
         {/* <Footer /> */}
     </div>
   );

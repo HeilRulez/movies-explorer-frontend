@@ -1,6 +1,6 @@
 .main {
-    width: 1280px;
-    min-height: min-content;
+    width: 100%;
+    min-height: 320px;
     margin: 0 auto;
     padding: 0;
 }

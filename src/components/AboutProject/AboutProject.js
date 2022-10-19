@@ -1,27 +1,22 @@
 import './AboutProject.css';
-import HeaderTextOne from '../HeaderTextOne/HeaderTextOne.js';
-import DescriptionText from '../DescriptionText/DescriptionText.js';
+import TitleText from '../TitleText/TitleText.js';
 
-export default function AboutProject() {
-
-    const DesStyle = {
-        'width': '550px',
-    };
+export default function AboutProject({colorStyle}) {
 
     return (
         <section className='about-project'>
-            <HeaderTextOne text={'О проекте'} />
+            <TitleText text={'О проекте'} />
             <div className='about-project__content'>
-                <h4 className='about-project__text'>Дипломный проект включал 5 этапов</h4>
-                <h4 className='about-project__text'>На выполнение диплома ушло 5 недель</h4>
-                <DescriptionText tagetStyle={DesStyle} text={'Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.'} />
-                <DescriptionText tagetStyle={DesStyle} text={'У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.'} />
+                <h4 className='about-project__header'>Дипломный проект включал 5 этапов</h4>
+                <p className='about-project__description'>Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>
+                <h4 className='about-project__header'>На выполнение диплома ушло 5 недель</h4>
+                <p className='about-project__description'>У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
             </div>
-            <div className='about-project__plan'>
-                <p className='about-project__text-item'>1 неделя</p>
-                <p className='about-project__text-item'>4 недели</p>
-                <p className='about-project__text-item_description'>Back-end</p>
-                <p className='about-project__text-item_description'>Front-end</p>
+            <div className='about-project__graph'>
+                <p className='about-project__graph-time' style={{backgroundColor: colorStyle}}>1 неделя</p>
+                <p className='about-project__graph-description'>Back-end</p>
+                <p className='about-project__graph-time'>4 недели</p>
+                <p className='about-project__graph-description'>Front-end</p>
             </div>
         </section>
     );
