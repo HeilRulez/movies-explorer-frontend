@@ -1,5 +1,6 @@
 .about-project {
     padding: 0 18px;
+    min-width: 320px;
 }
 
 .about-project__content {
