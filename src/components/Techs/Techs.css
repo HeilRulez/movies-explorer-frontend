@@ -40,3 +40,45 @@
     box-sizing: border-box;
     min-height: 82px;
 }
+
+@media screen and (min-width: 640px) {
+    .techs {
+        min-width: 768px;
+        min-height: 567px;
+        padding: 0 50px;
+    }
+
+    .techs__header {
+        font-size: 50px;
+        line-height: 58px;
+        padding: 80px 0 0;
+        max-width: 600px;
+    }
+
+    .techs__description {
+        font-size: 12px;
+        line-height: 18px;
+        min-width: 460px;
+        padding: 22px 0;
+        min-height: 105px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .techs {
+        min-width: 1024px;
+        min-height: 625px;
+        padding: 0 70px;
+    }
+
+    .techs__header {
+        padding: 90px 0 0;
+    }
+
+    .techs__description {
+        font-size: 14px;
+        line-height: 20px;
+        padding: 26px 0;
+        min-height: 126px;
+    }
+}
