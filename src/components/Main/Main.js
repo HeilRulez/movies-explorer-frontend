@@ -5,7 +5,6 @@ import Techs from '../Techs/Techs.js';
 import AboutMe from '../AboutMe/AboutMe.js';
 
 export default function Main({colorStyle}) {
-
     return (
         <section className='main'>
             <Promo />

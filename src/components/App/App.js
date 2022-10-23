@@ -17,7 +17,7 @@ export default function App() {
     <div className="app">
         <Header loggedIn={loggedIn} colorStyle={colorStyle} />
         <Main colorStyle={colorStyle} />
-        {/* <Footer /> */}
+        <Footer />
     </div>
   );
 }
