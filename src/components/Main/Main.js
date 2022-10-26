@@ -10,7 +10,7 @@ export default function Main({colorStyle}) {
             <Promo />
             <AboutProject colorStyle={colorStyle} />
             <Techs />
-            {/* <AboutMe /> */}
+            <AboutMe />
         </section>
     );
 }
