@@ -1,0 +1,36 @@
+.moviesCard {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.moviesCard__container {}
+
+.moviesCard__title {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000;
+}
+
+.moviesCard__time {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    display: flex;
+    align-items: center;
+    color: #A0A0A0;
+}
+
+.moviesCard__btn {
+
+}
+
+.moviesCard__img {
+    object-fit: cover;
+}
+

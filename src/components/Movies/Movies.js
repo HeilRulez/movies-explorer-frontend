@@ -1,12 +1,12 @@
 import './Movies.css';
-import SearchForm from '../SearchForm/SearchForm.js';
-import Preloader from '../Preloader/Preloader.js';
-import MoviesCardList from '../MoviesCardList/MoviesCardList.js';
+import SearchForm from '../SearchForm/SearchForm';
+import Preloader from '../Preloader/Preloader';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 export default function Moies() {
     return (
         <section className='movies'>
-            <SearchForm />
+            {/* <SearchForm /> */}
             <MoviesCardList />
         </section>
     );

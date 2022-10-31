@@ -1,11 +1,14 @@
 import './MoviesCard.css';
 
-export default function MoviesCard({title, time, srcImg}) {
+export default function MoviesCard({data}) {
     return (
         <section className='moviesCard'>
-            <h2 className='moviesCard__title'>{title}</h2>
-            <p className='moviesCard__time'>{time}</p>
-            <img className='moviesCard__img' src={srcImg} alt={title} />
+            <div className='moviesCard__container'>
+                <h2 className='moviesCard__title'>{data.title}</h2>
+                <p className='moviesCard__time'>{data.time}</p>
+                {/* <BtnComponent className='moviesCard__btn'/> */}
+            </div>
+            <img className='moviesCard__img' src={data.srcImg} alt={data.title} />
         </section>
     );
 }
