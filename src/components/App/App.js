@@ -1,19 +1,15 @@
 import './App.css';
-import { useState, useEffect, useHistory } from 'react';
-import { Route, Switch } from 'react-router-dom';
-import Header from '../Header/Header';
+import { useState, useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import AccessComponent from '../AccessComponent/AccessComponent';
 import Main from '../Main/Main';
-import Movies from '../Movies/Movies';
-import SavedMovies from '../SavedMovies/SavedMovies';
 import ErrorNotFound from '../ErrorNotFound/ErrorNotFound';
-import Footer from '../Footer/Footer';
 
 export default function App() {
 
 const [colorStyle, setColorStyle] = useState('#2BE080');
 const [loggedIn, setLoggedIn] = useState(true);
-// const history = useHistory();
+const history = useHistory();
 
 function onLogin(email, password) {
   // return api.access(email, password, '/signin')
@@ -92,22 +88,9 @@ function handleOut() {
             onSubmite={onRegister}
             colorStyle={colorStyle} />
         </Route>
-
-        {/* <Header loggedIn={loggedIn} logOut={handleOut} colorStyle={colorStyle} /> */}
-        {/* <Route path='/'>
-          <Main colorStyle={colorStyle} />
+        <Route path='/'>
+          <Main loggedIn={loggedIn} handleOut={handleOut} colorStyle={colorStyle} />
         </Route>
-        <Route path='/movies'>
-          <Movies />
-        </Route>
-        <Route path='/saved-movies'>
-          <SavedMovies />
-        </Route>
-        <Route path='/profile'>
-
-        </Route>
-
-        <Footer /> */}
         <Route path='/*'>
           <ErrorNotFound />
         </Route>

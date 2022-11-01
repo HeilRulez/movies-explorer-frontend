@@ -110,6 +110,7 @@
 @media screen and (min-width: 560px) {
   .access {
     width: 396px;
+    padding: 70px 0 30px;
   }
 
   .form {

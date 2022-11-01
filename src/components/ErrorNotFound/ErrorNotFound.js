@@ -11,9 +11,11 @@ export default function ErrorNotFound() {
 
   return (
     <section className ='notFound'>
-      <div>
-        <h1 className='notFound__title'>404</h1>
-        <p className='notFound__text'>Страница не найдена</p>
+      <div className ='notFound__container'>
+          <div>
+          <h1 className='notFound__title'>404</h1>
+          <p className='notFound__text'>Страница не найдена</p>
+        </div>
       </div>
       <button className ='notFound__btn' onClick={goBack}>Назад</button>
     </section>

@@ -2,7 +2,7 @@ import './Header.css';
 import { Link } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 
-export default function Header ({ loggedIn, colorStyle }) {
+export default function Header ({ loggedIn, handleOut, colorStyle }) {
 
   return (
     <header className='header'>
