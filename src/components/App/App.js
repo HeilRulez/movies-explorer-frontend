@@ -1,11 +1,12 @@
 import './App.css';
 import { useState, useEffect, useHistory } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Header from '../Header/Header';
-import AccessComponent from '../AccessComponent/AccessComponent.js';
+import AccessComponent from '../AccessComponent/AccessComponent';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
+import ErrorNotFound from '../ErrorNotFound/ErrorNotFound';
 import Footer from '../Footer/Footer';
 
 export default function App() {
@@ -70,10 +71,9 @@ function handleOut() {
 
   return (
     <div className="app">
-      {/* <AccessComponent link={'/signup'} onSubmite={onLogin} colorStyle={colorStyle} /> */}
-        <Routes>
-          <Route path='/signin'>
-            <AccessComponent
+      <Switch>
+        <Route path='/signin'>
+          <AccessComponent
             link={'/signup'}
             linkPreText={'Ещё не зарегистрированы?'}
             linkText={'Регистрация'}
@@ -81,25 +81,37 @@ function handleOut() {
             btnText={'Войти'}
             onSubmite={onLogin}
             colorStyle={colorStyle} />
-          </Route>
-          {/* <Route path='/signup'>
-            <AccessComponent link={'/signin'} onSubmite={onRegister} colorStyle={colorStyle} />
-          </Route>
-          <Header loggedIn={loggedIn} logOut={handleOut} colorStyle={colorStyle} />
-          <Route path='/'>
-            <Main colorStyle={colorStyle} />
-          </Route>
-          <Route path='/movies'>
-            <Movies />
-          </Route>
-          <Route path='/saved-movies'>
-            <SavedMovies />
-          </Route>
-          <Route path='/profile'>
+        </Route>
+        <Route path='/signup'>
+          <AccessComponent
+            link={'/signin'}
+            linkPreText={'Уже зарегистрированы?'}
+            linkText={'Войти'}
+            headerText={'Добро пожаловать!'}
+            btnText={'Зарегистрироваться'}
+            onSubmite={onRegister}
+            colorStyle={colorStyle} />
+        </Route>
 
-          </Route>
-          <Footer /> */}
-        </Routes>
+        {/* <Header loggedIn={loggedIn} logOut={handleOut} colorStyle={colorStyle} /> */}
+        {/* <Route path='/'>
+          <Main colorStyle={colorStyle} />
+        </Route>
+        <Route path='/movies'>
+          <Movies />
+        </Route>
+        <Route path='/saved-movies'>
+          <SavedMovies />
+        </Route>
+        <Route path='/profile'>
+
+        </Route>
+
+        <Footer /> */}
+        <Route path='/*'>
+          <ErrorNotFound />
+        </Route>
+      </Switch>
     </div>
   );
 }
