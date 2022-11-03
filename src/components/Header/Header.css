@@ -11,24 +11,6 @@
   opacity: .6;
 }
 
-.header__link {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
-  text-align: right;
-  color: #000;
-  text-decoration: none;
-  padding: 0 8px;
-  margin: 0;
-  transition: opacity .3s ease-in-out;
-}
-
-.header__link:hover {
-  opacity: .6;
-}
-
 @media screen and (min-width: 480px) {
   .header {
     min-width: 440px;

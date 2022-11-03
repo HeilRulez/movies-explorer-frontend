@@ -52,6 +52,10 @@
     height: 35px;
 }
 
+.about-project__graph-time:nth-child(1) {
+  background-color: #2BE080;
+}
+
 .about-project__graph-description {
     font-family: 'Inter';
     font-style: normal;
@@ -96,7 +100,7 @@
         padding: 9px 0;
         height: 36px;
     }
-    
+
     .about-project__graph-description {
         font-size: 14px;
         line-height: 17px;

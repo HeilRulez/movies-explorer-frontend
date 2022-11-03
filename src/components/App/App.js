@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import AccessComponent from '../AccessComponent/AccessComponent';
 import Main from '../Main/Main';
+import Header from '../Header/Header';
+import Profile from '../Profile/Profile';
 import ErrorNotFound from '../ErrorNotFound/ErrorNotFound';
 
 export default function App() {
 
-const [colorStyle, setColorStyle] = useState('#2BE080');
 const [loggedIn, setLoggedIn] = useState(true);
 const history = useHistory();
 
@@ -75,8 +76,7 @@ function handleOut() {
             linkText={'Регистрация'}
             headerText={'Рады видеть!'}
             btnText={'Войти'}
-            onSubmite={onLogin}
-            colorStyle={colorStyle} />
+            onSubmite={onLogin} />
         </Route>
         <Route path='/signup'>
           <AccessComponent
@@ -85,11 +85,14 @@ function handleOut() {
             linkText={'Войти'}
             headerText={'Добро пожаловать!'}
             btnText={'Зарегистрироваться'}
-            onSubmite={onRegister}
-            colorStyle={colorStyle} />
+            onSubmite={onRegister} />
+        </Route>
+        <Route path='/profile'>
+          <Header loggedIn={loggedIn} />
+          <Profile handleOut={handleOut} />
         </Route>
         <Route path='/'>
-          <Main loggedIn={loggedIn} handleOut={handleOut} colorStyle={colorStyle} />
+          <Main loggedIn={loggedIn} />
         </Route>
         <Route path='/*'>
           <ErrorNotFound />

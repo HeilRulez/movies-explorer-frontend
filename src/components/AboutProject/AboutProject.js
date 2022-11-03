@@ -1,10 +1,10 @@
 import './AboutProject.css';
 import TitleText from '../TitleText/TitleText.js';
 
-export default function AboutProject({colorStyle}) {
+export default function AboutProject() {
 
     return (
-        <section className='about-project'>
+        <section id='aboutProject' className='about-project'>
             <TitleText text={'О проекте'} />
             <div className='about-project__content'>
                 <h4 className='about-project__header'>Дипломный проект включал 5 этапов</h4>
@@ -13,7 +13,7 @@ export default function AboutProject({colorStyle}) {
                 <p className='about-project__description'>У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
             </div>
             <div className='about-project__graph'>
-                <p className='about-project__graph-time' style={{backgroundColor: colorStyle}}>1 неделя</p>
+                <p className='about-project__graph-time'>1 неделя</p>
                 <p className='about-project__graph-description'>Back-end</p>
                 <p className='about-project__graph-time'>4 недели</p>
                 <p className='about-project__graph-description'>Front-end</p>
