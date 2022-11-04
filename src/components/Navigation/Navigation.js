@@ -2,7 +2,7 @@ import './Navigation.css';
 import { Link } from 'react-router-dom';
 
 
-export default function Navigation ({ loggedIn }) {
+export default function Navigation () {
 
     return (
       <section className='nav'>

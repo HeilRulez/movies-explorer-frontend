@@ -5,6 +5,9 @@ import AccessComponent from '../AccessComponent/AccessComponent';
 import Main from '../Main/Main';
 import Header from '../Header/Header';
 import Profile from '../Profile/Profile';
+import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
+import Footer from '../Footer/Footer';
 import ErrorNotFound from '../ErrorNotFound/ErrorNotFound';
 
 export default function App() {
@@ -87,16 +90,28 @@ function handleOut() {
             btnText={'Зарегистрироваться'}
             onSubmite={onRegister} />
         </Route>
+        <Route path='/movies'>
+          <Header loggedIn={loggedIn} />
+          <Movies />
+          <Footer />
+        </Route>
+        <Route path='/saved-movies'>
+          <Header loggedIn={loggedIn} />
+          <SavedMovies />
+          <Footer />
+        </Route>
         <Route path='/profile'>
           <Header loggedIn={loggedIn} />
           <Profile handleOut={handleOut} />
         </Route>
         <Route path='/'>
+          <Header loggedIn={loggedIn} />
           <Main loggedIn={loggedIn} />
+          <Footer />
         </Route>
-        <Route path='/*'>
+        {/* <Route path='/*'>
           <ErrorNotFound />
-        </Route>
+        </Route> */}
       </Switch>
     </div>
   );

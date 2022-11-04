@@ -17,12 +17,12 @@ export default function Profile ({ handleOut }) {
         <div>
         <div className='profile__container'>
           <p className='profile__lable'>Имя</p>
-          <input className='profile__input'></input>
+          <input className='profile__input' />
         </div>
         <p className='profile__line'></p>
         <div className='profile__container'>
           <p className='profile__lable'>E-mail</p>
-          <input className='profile__input'></input>
+          <input className='profile__input' />
         </div>
 
         </div>

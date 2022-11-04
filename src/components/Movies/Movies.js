@@ -6,8 +6,8 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 export default function Moies() {
     return (
         <section className='movies'>
-            {/* <SearchForm /> */}
-            <MoviesCardList />
+            <SearchForm />
+            {/* <MoviesCardList /> */}
         </section>
     );
 }

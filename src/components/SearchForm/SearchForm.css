@@ -1,0 +1,125 @@
+.searchForm {
+  padding: 100px 10px 10px;
+  height: 272px;
+  box-sizing: border-box;
+}
+
+.searchForm__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchForm__input {
+  border: none;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000;
+  min-width: 85%;
+}
+
+.searchForm__input::placeholder {
+  color: #A0A0A0;
+}
+
+.searchForm__submit {
+  background-color: #3456F3;
+  border-radius: 20px;
+  border: none;
+  width: 34px;
+  height: 34px;
+  transition: opacity .3s ease-in-out;
+  position: relative;
+}
+
+.searchForm__submit::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border:  solid #fff;
+  border-width: 2px 0 0 2px;
+  transform: translate(-50%, -50%) rotate(135deg);
+  position: absolute;
+  left: 45%;
+  top: 50%;
+}
+
+.searchForm__submit:hover {
+  opacity: .6;
+}
+
+.checkbox {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.checkbox__checked {
+  display:none;
+}
+
+.checkbox__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 34px;
+  background-color: #2BE080;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.checkbox__slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.checkbox__checked:checked + .checkbox__slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+}
+
+.checkbox__text {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 18px;
+  color: #000;
+  display: inline;
+  margin: 0 0 0 13px;
+  padding: 0;
+}
+
+.container__label {
+  padding: 45px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container__input {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media screen and (min-width: 480px) {
+  .searchForm__input::before {
+    content: '343';
+  }
+}
