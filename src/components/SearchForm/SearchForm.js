@@ -32,6 +32,7 @@ export default function SearchForm() {
           <p className='checkbox__text'>Короткометражки</p>
         </div>
       </form>
+      <p className='searchForm__line' />
     </section>
   );
 }
