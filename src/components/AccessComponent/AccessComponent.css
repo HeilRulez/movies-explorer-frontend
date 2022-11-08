@@ -80,6 +80,11 @@
   border: none;
   border-radius: 3px;
   cursor: pointer;
+  transition: opacity .3s ease-in-out;
+}
+
+.form__btn-submit:hover {
+  opacity: .6;
 }
 
 .access__text-forLink {
@@ -105,6 +110,11 @@
   margin: 0;
   padding: 14px 0 14px 7px;
   text-decoration: none;
+  transition: opacity .3s ease-in-out;
+}
+
+.access__link:hover {
+  opacity: .6;
 }
 
 @media screen and (min-width: 560px) {

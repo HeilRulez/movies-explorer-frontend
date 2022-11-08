@@ -1,5 +1,5 @@
 .searchForm {
-  padding: 80px 10px 10px;
+  padding: 80px 0 10px;
   box-sizing: border-box;
 }
 
@@ -136,7 +136,6 @@
 @media screen and (min-width: 480px) {
   .searchForm {
     padding: 80px 0 10px;
-    margin: 0 20px;
     box-sizing: border-box;
   }
 }
@@ -189,18 +188,7 @@
   }
 }
 
-@media screen and (min-width: 768px) {
-  .searchForm {
-    margin: 0 30px;
-  }
-}
-
 @media screen and (min-width: 1024px) {
-  .searchForm {
-    padding: 70px 0 10px;
-    margin: 0 70px;
-  }
-
   .searchForm__form {
     padding: 16px 30px 16px 19px;
   }
