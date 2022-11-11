@@ -24,13 +24,7 @@ export default function SearchForm() {
           placeholder='Фильм' />
           <button className='searchForm__submit' type='submit' />
         </div>
-        <div className='container__label'>
-          <label label className='checkbox'>
-            <input className='checkbox__checked' type="checkbox" name="shortFilms" />
-            <span class="checkbox__slider"></span>
-          </label>
-          <p className='checkbox__text'>Короткометражки</p>
-        </div>
+        <FilterCheckbox />
       </form>
       <p className='searchForm__line' />
     </section>

@@ -1,8 +1,19 @@
 import './Header.css';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 
-export default function Header ({ loggedIn }) {
+export default function Header ({ loggedIn, onClose }) {
+
+  const [openMenu, setOpenMenu] = useState(false);
+
+  function handleOpen() {
+    setOpenMenu(true);
+  }
+
+  function handleClose() {
+    setOpenMenu(false);
+  }
 
   return (
     <header className='header'>
@@ -13,12 +24,17 @@ export default function Header ({ loggedIn }) {
           <path fill-rule="evenodd" clip-rule="evenodd" d="M15.1538 19C15.1538 21.1242 16.8758 22.8462 19 22.8462C21.1242 22.8462 22.8462 21.1242 22.8462 19H25C25 22.3137 22.3137 25 19 25C15.6863 25 13 22.3137 13 19H15.1538Z" fill={'#2BE080'}/>
         </svg>
       </Link>
-      {loggedIn ? (<Navigation />) : (
-        <nav>
-          <Link className="header__signin" to='/signin'>Войти</Link>
+      {loggedIn ? (
+        <div className='header__container'>
+          <Navigation isOpen={openMenu} onClose={handleClose} />
+          <Link className='header__link' to='/profile'>Аккаунт</Link>
+          <button className={`header__bntMenu ${!openMenu && 'header__bntMenu_visible'}`} type="button" onClick={handleOpen}><span></span></button>
+        </div>
+        ) : (
+        <nav className='header__access-container'>
           <Link className="header__signup" to='/signup'>Регистрация</Link>
-        </nav>
-      )}
+          <Link className="header__signin" to='/signin'>Войти</Link>
+        </nav>)}
     </header>
   )
 }

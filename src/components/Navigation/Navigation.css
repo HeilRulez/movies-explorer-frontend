@@ -1,17 +1,139 @@
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, .5);
+  z-index: 1;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.nav_visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity .3s linear;
+}
+
+.nav__close {
+  position: absolute;
+  top: 28px;
+  right: 23px;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  transition: opacity .3s ease-in-out;
+}
+
+.nav__close:hover {
+  opacity: .6;
+}
+
+.nav__close::after {
+  content: '';
+  width: 22px;
+  display: block;
+  border: 2px solid #000;
+  transform: rotate(45deg);
+  margin: -4px auto  0;
+  background-color: #000;
+}
+
+.nav__close::before {
+  content: '';
+  width: 22px;
+  display: block;
+  border: 2px solid #000;
+  transform: rotate(-45deg);
+  margin: -4px auto  0;
+  background-color: #000;
+}
+
+.nav__container {
+  padding-top: 80px;
+  min-height: 70%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  justify-content: center;
+}
+
 .nav__link {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+  transition: opacity .3s ease-in-out;
+  padding-bottom: 24px;
+}
+
+.nav__link:hover {
+  opacity: .6;
+}
+
+.account {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
-  text-align: right;
   color: #000;
-  text-decoration: none;
-  padding: 0 8px;
-  margin: 0;
-  transition: opacity .3s ease-in-out;
+  padding-top: 90%;
 }
 
-.nav__link:hover {
-  opacity: .6;
+@media screen and (min-width: 460px) {
+  .nav__container {
+    min-width: 70%;
+  }
+  .nav__close {
+    right: 30px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .nav {
+    position: relative;
+    margin: 0 0 0 36px;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav__close {
+    display: none;
+  }
+
+  .nav__container {
+    padding-top: 0;
+    height: 0;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .account, .home {
+    display: none;
+  }
+
+  .nav__link, .account {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: right;
+    color: #000;
+    text-decoration: none;
+    padding: 0 8px;
+    margin: 0;
+  }
 }
