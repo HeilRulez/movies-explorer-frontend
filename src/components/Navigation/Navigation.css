@@ -61,6 +61,7 @@
   min-width: 320px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   background-color: #fff;
   justify-content: center;
 }
@@ -76,6 +77,13 @@
   text-decoration: none;
   transition: opacity .3s ease-in-out;
   padding-bottom: 24px;
+}
+
+.nav__link_active {
+  min-width: min-content;
+  border-bottom: 2px solid #000;
+  padding-bottom: 7px;
+  margin-bottom: 15px;
 }
 
 .nav__link:hover {
@@ -124,7 +132,15 @@
     display: none;
   }
 
-  .nav__link, .account {
+  .nav__link {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    padding: 0 8px;
+    margin: 0;
+  }
+
+  .account {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
@@ -133,6 +149,14 @@
     text-align: right;
     color: #000;
     text-decoration: none;
+    padding: 0 8px;
+    margin: 0;
+  }
+
+  .nav__link_active {
+    font-weight: 500;
+    min-width: 0;
+    border: none;
     padding: 0 8px;
     margin: 0;
   }

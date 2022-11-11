@@ -9,6 +9,7 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Footer from '../Footer/Footer';
 import ErrorNotFound from '../ErrorNotFound/ErrorNotFound';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 export default function App() {
 
@@ -113,6 +114,11 @@ function handleOut() {
           <ErrorNotFound />
         </Route> */}
       </Switch>
+      {/* <InfoTooltip isOpen={true}
+        onClose={}
+        infoMessage={'ErrorMesage'}
+        infoState={'ok'}
+        /> */}
     </div>
   );
 }
