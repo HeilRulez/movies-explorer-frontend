@@ -14,7 +14,6 @@
 }
 
 .techs__header {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 30px;
@@ -27,7 +26,6 @@
 }
 
 .techs__description {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 11px;
@@ -52,7 +50,6 @@
 }
 
 .techs__item {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 12px;
@@ -94,7 +91,7 @@
     }
 
     .techs__list{
-        padding:  83px 0 90px; 
+        padding:  83px 0 90px;
         grid-template-columns: repeat(5, 1fr);
     }
 }
@@ -129,7 +126,7 @@
         height: 60px;
     }
     .techs__list{
-        padding:  100px 0; 
+        padding:  100px 0;
         grid-template-columns: repeat(7, 1fr);
     }
 }

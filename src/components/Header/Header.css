@@ -15,7 +15,7 @@
 .header__bntMenu {
   display: flex;
   align-items: center;
-  position: fixed;
+  position: absolute;
   top: 23px;
   right: 31px;
   width: 28px;
@@ -56,7 +56,6 @@
 .header__link {
   width: 100px;
   height: 32px;
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -67,6 +66,8 @@
   color: #000;
   text-decoration: none;
   visibility: hidden;
+  border-radius: 20px;
+  background-color: #F9F9F9;
 }
 
 .header__container {
@@ -77,7 +78,6 @@
 }
 
 .header__signin, .header__signup {
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   font-size: 12px;

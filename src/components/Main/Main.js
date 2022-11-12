@@ -4,15 +4,15 @@ import AboutProject from '../AboutProject/AboutProject';
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 
-export default function Main({ loggedIn }) {
+export default function Main() {
 
     return (
-      <section className='main'>
+      <main className='main'>
         <Promo />
         <AboutProject />
         <Techs />
         <AboutMe />
-      </section>
+      </main>
     );
 }
 

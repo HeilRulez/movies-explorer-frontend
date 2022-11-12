@@ -17,7 +17,7 @@ export default function ErrorNotFound() {
           <p className='notFound__text'>Страница не найдена</p>
         </div>
       </div>
-      <button className ='notFound__btn' onClick={goBack}>Назад</button>
+      <button className ='notFound__btn' type="button" onClick={goBack}>Назад</button>
     </section>
   );
 }

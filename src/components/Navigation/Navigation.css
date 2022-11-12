@@ -67,7 +67,6 @@
 }
 
 .nav__link {
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
@@ -91,7 +90,6 @@
 }
 
 .account {
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
@@ -141,7 +139,6 @@
   }
 
   .account {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
     font-size: 14px;

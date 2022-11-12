@@ -7,10 +7,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    border-radius: 10px;
 }
 
 .promo__textHeader {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 29px;

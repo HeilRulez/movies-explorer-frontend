@@ -2,7 +2,7 @@ import './Footer.css';
 
 export default function Footer() {
     return (
-        <section className='footer'>
+        <footer className='footer'>
             <h2 className='footer__header'>Учебный проект Яндекс.Практикум х BeatFilm.</h2>
             <div className='footer__info'>
                 <div className='footer__container-link'>
@@ -12,6 +12,6 @@ export default function Footer() {
                 </div>
                 <p className="footer__copyright">&copy; {new Date().getFullYear()}</p>
             </div>
-        </section>
+        </footer>
     );
 }

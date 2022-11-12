@@ -15,7 +15,6 @@
 }
 
 .notFound__title {
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 80px;
@@ -27,7 +26,6 @@
 }
 
 .notFound__text {
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -39,7 +37,6 @@
 }
 
 .notFound__btn {
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

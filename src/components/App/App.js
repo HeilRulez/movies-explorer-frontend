@@ -107,7 +107,7 @@ function handleOut() {
         </Route>
         <Route path='/'>
           <Header loggedIn={loggedIn} />
-          <Main loggedIn={loggedIn} />
+          <Main />
           <Footer />
         </Route>
         {/* <Route path='/*'>

@@ -10,7 +10,6 @@
 }
 
 .about-project__header {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 18px;
@@ -21,7 +20,6 @@
 }
 
 .about-project__description {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 11px;
@@ -38,7 +36,6 @@
 }
 
 .about-project__graph-time {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 11px;
@@ -57,7 +54,6 @@
 }
 
 .about-project__graph-description {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 11px;

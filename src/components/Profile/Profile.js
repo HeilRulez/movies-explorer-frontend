@@ -28,7 +28,7 @@ export default function Profile ({ handleOut }) {
         </div>
         <button className='profile__submit' type='submit'>Редактировать</button>
       </form>
-      <button className='profile__btn'>Выйти из аккаунта</button>
+      <button className='profile__btn' type="button">Выйти из аккаунта</button>
     </section>
   );
 }

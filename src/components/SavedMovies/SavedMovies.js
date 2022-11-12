@@ -4,9 +4,9 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 export default function SavedMovies({ onLogin, colorStyle }) {
   return (
-    <section className='savedMovies'>
+    <main className='savedMovies'>
       <SearchForm />
       <MoviesCardList />
-    </section>
+    </main>
   )
 }
