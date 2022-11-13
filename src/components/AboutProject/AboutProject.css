@@ -1,5 +1,5 @@
 .about-project {
-    padding: 0 18px;
+    padding: 0;
 }
 
 .about-project__content {
@@ -67,7 +67,7 @@
 
 @media screen and (min-width: 640px) {
     .about-project {
-        padding: 0 50px;
+        padding: 0;
     }
     .about-project__content {
         min-height: 287px;
@@ -104,9 +104,15 @@
     }
 }
 
+@media screen and (min-width: 768px) {
+  .about-project {
+    padding: 0 20px;
+}
+}
+
 @media screen and (min-width: 1024px) {
     .about-project {
-        padding: 0 70px 100px;
+        padding: 0 0 100px;
     }
     .about-project__content {
         min-height: 270px;

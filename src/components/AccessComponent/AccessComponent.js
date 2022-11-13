@@ -57,36 +57,36 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
         </svg>
         <h1 className ='access__title'>{headerText}</h1>
       </div>
-      <form className='form' onSubmit={handleSubmit} name='signin' noValidate>
+      <form className='access-form' onSubmit={handleSubmit} name='signin' noValidate>
         <div>
-          {(link === '/signin') && (<><p className='form__text'>Имя</p>
-            <input className="form__input"
+          {(link === '/signin') && (<><p className='access-form__text'>Имя</p>
+            <input className="access-form__input"
               onChange={handleChangeName}
               value={name}
               id="nameInput" type="text" name="name"
               required
               autoComplete="off" />
-            <span className="form__text-error" id="name Input-error"> </span>
+            <span className="access-form__text-error" id="name Input-error"> </span>
             </>)}
-          <p className='form__text'>E-mail</p>
-          <input className="form__input"
+          <p className='access-form__text'>E-mail</p>
+          <input className="access-form__input"
             onChange={handleChangeEmail}
             value={email}
             id="emailInput" type="email" name="email"
             required
             autoComplete="off" />
-          <span className="form__text-error" id="emailInput-error"></span>
-          <p className='form__text'>Пароль</p>
-          <input className="form__input"
+          <span className="access-form__text-error" id="emailInput-error"></span>
+          <p className='access-form__text'>Пароль</p>
+          <input className="access-form__input"
             onChange={handleChangePassword}
             value={password}
             id="password" type="password" name="password"
             required
             autoComplete="off" />
-          <span className="form__text-error" id="password-error"></span>
+          <span className="access-form__text-error" id="password-error"></span>
         </div>
         <div>
-          <button className="form__btn-submit" type="submit">{btnText}</button>
+          <button className="access-form__btn-submit" type="submit">{btnText}</button>
           <p className="access__text-forLink">
             {linkPreText}
             <Link className="access__link" to={link}>{linkText}</Link>

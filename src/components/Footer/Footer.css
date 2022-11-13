@@ -1,6 +1,6 @@
 .footer {
   padding: 0 0 10px;
-  margin: 0 10px;
+  margin: 0 auto;
 }
 
 .footer__header {
@@ -63,7 +63,6 @@
 @media screen and (min-width: 480px) {
   .footer {
     padding: 0 0 20px;
-    margin: 0 30px;
   }
 
   .footer__link {
@@ -102,10 +101,16 @@
   }
 }
 
+@media screen and (min-width: 768px) {
+  .footer {
+    margin: 0 -20px;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .footer {
     padding: 0 0 20px;
     max-width: 1140px;
-    margin: 0 70px;
+    margin: 0;
   }
 }

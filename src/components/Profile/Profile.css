@@ -1,15 +1,23 @@
 .profile {
-  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 80vh;
+  padding: 0 10px;
+}
+
+.profile__container {
+  padding: 0 30px;
   display: flex;
   flex-direction: column;
   justify-items: center;
 }
 
-.profile__form {
+.form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 460px;
+  min-height: 40vh;
 }
 
 .profile__title {
@@ -23,23 +31,23 @@
   padding: 40px 0 80px;
 }
 
-.profile__container {
-  display: flex;
+.form__container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
 }
 
-.profile__lable {
+.form__lable {
   font-style: normal;
   font-weight: 500;
   font-size: 11px;
   line-height: 13px;
   color: #000000;
   display: inline;
-  width: 50%;
   margin: 0;
-  padding: 0;
+  padding: 16px 0 ;
 }
 
-.profile__input {
+.form__input {
   font-style: normal;
   font-weight: 400;
   font-size: 11px;
@@ -48,19 +56,18 @@
   color: #000;
   display: inline;
   border: none;
-  width: 50%;
   margin: 0;
   padding: 0;
   font-family: 'Inter';
 }
 
-.profile__line {
+.form__line {
   border: 1px solid #E8E8E8;
-  margin: 16px 0;
+  margin: 0;
   padding: 0;
 }
 
-.profile__submit {
+.form__submit {
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -74,7 +81,7 @@
   transition: opacity .3s ease-in-out;
 }
 
-.profile__submit:hover {
+.form__submit:hover {
   opacity: .6;
 }
 
@@ -97,15 +104,20 @@
   opacity: .6;
 }
 
-@media screen and (min-width: 560px) {
+@media screen and (min-width: 480px) {
   .profile {
+    padding: 0 20px;
+  }
+}
+
+@media screen and (min-width: 560px) {
+  .profile__container {
     padding: 0;
     margin: 0 auto;
     width: 470px;
   }
 
-  .profile__form {
-    min-height: 288px;
+  .form {
     min-width: 100%;
   }
 
@@ -113,8 +125,20 @@
     padding: 40px 0 96px;
   }
 
-  .profile__submit, .profile__btn {
+  .form__submit, .profile__btn {
     font-size: 13px;
     line-height: 16px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .profile {
+    padding: 0 30px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .profile {
+    padding: 0 70px;
   }
 }

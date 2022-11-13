@@ -25,14 +25,14 @@
   padding: 50px 0 80px 0;
 }
 
-.form {
+.access-form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 497px;
 }
 
-.form__text {
+.access-form__text {
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
@@ -42,7 +42,7 @@
   padding: 0;
 }
 
-.form__input {
+.access-form__input {
   border: none;
   border-bottom: 1px solid #E8E8E8;
   background-color: #fff;
@@ -52,7 +52,7 @@
   box-sizing: border-box;
 }
 
-.form__text-error {
+.access-form__text-error {
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
@@ -63,7 +63,7 @@
   display: block;
 }
 
-.form__btn-submit {
+.access-form__btn-submit {
   width: 100%;
   height: 45px;
   font-style: normal;
@@ -79,7 +79,7 @@
   transition: opacity .3s ease-in-out;
 }
 
-.form__btn-submit:hover {
+.access-form__btn-submit:hover {
   opacity: .6;
 }
 
@@ -117,12 +117,12 @@
     padding: 70px 0 30px;
   }
 
-  .form {
+  .access-form {
     min-height: 413px;
     width: 100%;
   }
 
-  .form__btn-submit {
+  .access-form__btn-submit {
     font-size: 14px;
     line-height: 17px;
   }

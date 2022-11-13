@@ -1,7 +1,7 @@
 .promo {
     min-height: 568px;
     background-color: #F5F5F5;
-    margin: 14px 14px 0 14px;
+    margin: 14px 0 0;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -24,7 +24,7 @@
 
 @media screen and (min-width: 480px) {
     .promo {
-        margin: 16px 16px 0 16px;
+        margin: 16px 0 0;
         min-height: 680px;
     }
 
@@ -38,7 +38,7 @@
 
 @media screen and (min-width: 768px) {
     .promo {
-        margin: 20px 20px 0 20px;
+        margin: 20px -10px 0 -10px;
         min-height: 834px;
     }
 
@@ -52,7 +52,7 @@
 
 @media screen and (min-width: 1024px) {
     .promo {
-        margin: 20px 40px 0 40px;
+        margin: 20px -30px 0 -30px;
         min-height: 493px;
     }
 

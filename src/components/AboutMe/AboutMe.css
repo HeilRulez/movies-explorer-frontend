@@ -1,6 +1,6 @@
 .about-me {
     margin: 0 auto;
-    padding: 0 14px 50px;
+    padding: 0 0 50px;
 }
 
 .about-me__container {
@@ -65,7 +65,7 @@
 
 @media screen and (min-width: 640px) {
     .about-me {
-        padding: 0 70px 70px;
+        padding: 0 0 70px;
     }
 
     .about-me__container {
@@ -113,9 +113,15 @@
     }
 }
 
+@media screen and (min-width: 768px) {
+  .about-me {
+    padding: 0 20px;
+}
+}
+
 @media screen and (min-width: 1024px) {
     .about-me {
-        padding: 0 105px;
+        padding: 0;
     }
 
     .about-me__name {

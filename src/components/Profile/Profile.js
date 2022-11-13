@@ -1,8 +1,9 @@
 import './Profile.css';
+import Header from '../Header/Header';
 import { useContext } from 'react';
 // import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-export default function Profile ({ handleOut }) {
+export default function Profile ({ loggedIn, handleOut }) {
 
   // const currentUser = useContext(CurrentUserContext);
 
@@ -12,23 +13,26 @@ export default function Profile ({ handleOut }) {
 
   return (
     <section className='profile'>
-      <h1 className='profile__title'>Привет, gg!</h1>
-      <form className='profile__form'>
-        <div>
-        <div className='profile__container'>
-          <p className='profile__lable'>Имя</p>
-          <input className='profile__input' />
-        </div>
-        <p className='profile__line'></p>
-        <div className='profile__container'>
-          <p className='profile__lable'>E-mail</p>
-          <input className='profile__input' />
-        </div>
+      <Header loggedIn={loggedIn} />
+      <div className='profile__container'>
+        <h1 className='profile__title'>Привет, gg!</h1>
+        <form className='form'>
+          <div>
+          <div className='form__container'>
+            <p className='form__lable'>Имя</p>
+            <input className='form__input' />
+          </div>
+          <p className='form__line'></p>
+          <div className='form__container'>
+            <p className='form__lable'>E-mail</p>
+            <input className='form__input' />
+          </div>
 
-        </div>
-        <button className='profile__submit' type='submit'>Редактировать</button>
-      </form>
-      <button className='profile__btn' type="button">Выйти из аккаунта</button>
+          </div>
+          <button className='form__submit' type='submit'>Редактировать</button>
+        </form>
+        <button className='profile__btn' type="button">Выйти из аккаунта</button>
+      </div>
     </section>
   );
 }
