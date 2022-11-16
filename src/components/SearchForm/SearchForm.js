@@ -2,16 +2,21 @@ import './SearchForm.css';
 import { useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox'
 
-export default function SearchForm() {
+export default function SearchForm({ onSub }) {
 
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(localStorage.getItem('phrase'));
 
   function handleChangeSearch(e) {
     setSearch(e.target.value);
+    localStorage.setItem('phrase', search);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!search) {
+      return
+    }
+    onSub();
   }
 
   return (

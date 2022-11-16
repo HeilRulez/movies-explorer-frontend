@@ -61,6 +61,10 @@
   font-family: 'Inter';
 }
 
+.form__input:focus {
+  outline:none;
+}
+
 .form__line {
   border: 1px solid #E8E8E8;
   margin: 0;

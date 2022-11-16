@@ -1,8 +1,9 @@
 import * as cs from './constants.js';
 
-class Api {
-  constructor({baseUrl, type}) {
+class MainApi {
+  constructor({baseUrl, baseMovies, type}) {
     this._baseUrl = baseUrl;
+    this._baseMovies = baseMovies;
     this._type = type;
   }
 
@@ -14,24 +15,17 @@ class Api {
     }
   }
 
-  renderAllCards() {
-    return fetch(`${this._baseUrl}/cards`, {
-        credentials: 'include'
-      })
-      .then(res => this._checkResponse(res))
-  }
-
-  reqDelCard(idCard) {
-    return fetch(`${this._baseUrl}/cards/${idCard}`, {
-        method: 'DELETE',
-        credentials: 'include'
-      })
-      .then(res => this._checkResponse(res))
-  }
-
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       credentials: 'include'
+      })
+      .then(res => this._checkResponse(res))
+  }
+
+  reqDelMovie(idMovie) {
+    return fetch(`${this._baseUrl}/movies/${idMovie}`, {
+        method: 'DELETE',
+        credentials: 'include'
       })
       .then(res => this._checkResponse(res))
   }
@@ -52,7 +46,7 @@ class Api {
     }
   }
 
-  sendData(name, about) {
+  sendData(name, email) {
     return fetch(`${this._baseUrl}/users/me`, {
         method: 'PATCH',
         headers: {
@@ -61,7 +55,7 @@ class Api {
         credentials: 'include',
         body: JSON.stringify({
           name: name,
-          about: about
+          email: email
         })
       })
       .then(res => this._checkResponse(res))
@@ -100,10 +94,11 @@ class Api {
 
   logOut() {
     return fetch(`${this._baseUrl}/users/signout`, {
+      method: 'POST',
       credentials: 'include'
       })
       .then(res => this._checkResponse(res))
   }
 }
 
-export default new Api(cs.configApi);
+export default new MainApi(cs.configApi);

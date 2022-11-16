@@ -1,17 +1,27 @@
 .access {
-  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+}
+
+.access__container {
   margin: 0 auto;
-  padding: 56px 30px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
 }
 
 .access__header {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.access__logo {
+  background-image: url(../../images/logo.svg);
+  width: 38px;
+  height: 38px;
 }
 
 .access__title {
@@ -29,7 +39,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 497px;
+  min-height: 40vh;
 }
 
 .access-form__text {
@@ -50,6 +60,11 @@
   min-height: 26px;
   padding: 10px 0;
   box-sizing: border-box;
+}
+
+.access-form__input:focus {
+  outline:none;
+  border-bottom: 1px solid #3456F3;
 }
 
 .access-form__text-error {
@@ -83,6 +98,12 @@
   opacity: .6;
 }
 
+.btn-err {
+  width: max-content;
+  margin: 0 auto;
+  padding: 0 0 6px 0;
+}
+
 .access__text-forLink {
   font-style: normal;
   font-weight: 400;
@@ -112,13 +133,11 @@
 }
 
 @media screen and (min-width: 560px) {
-  .access {
+  .access__container {
     width: 396px;
-    padding: 70px 0 30px;
   }
 
   .access-form {
-    min-height: 413px;
     width: 100%;
   }
 

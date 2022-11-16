@@ -10,7 +10,7 @@ export default function Navigation ({ isOpen, onClose }) {
 
     return (
       <section className={`nav ${isOpen && 'nav_visible'}`}>
-        <nav class="nav__container">
+        <nav className="nav__container">
           <button className="nav__close" type="button" onClick={handleClose} />
           <NavLink className="nav__link home" activeClassName="nav__link_active" to='/' exact>Главная</NavLink>
           <NavLink className="nav__link" activeClassName="nav__link_active" to='/movies'>Фильмы</NavLink>
