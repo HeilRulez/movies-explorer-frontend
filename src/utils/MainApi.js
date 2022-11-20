@@ -22,25 +22,48 @@ class MainApi {
       .then(res => this._checkResponse(res))
   }
 
-  reqDelMovie(idMovie) {
-    return fetch(`${this._baseUrl}/movies/${idMovie}`, {
+  reqDelMovie(movie) {
+    return fetch(`${this._baseUrl}/movies/${movie[0]._id}`, {
         method: 'DELETE',
         credentials: 'include'
       })
       .then(res => this._checkResponse(res))
   }
 
-  handleLike(id, isLiked) {
-    if (!isLiked) {
-      return fetch(`${this._baseUrl}/cards/${id}/likes`, {
+  getSaveMovie() {
+    return fetch(`${this._baseUrl}/movies`, {
+        credentials: 'include'
+      })
+      .then(res => this._checkResponse(res))
+  }
+
+  handleLike(data, isLiked, movie) {
+    if (isLiked) {
+      return fetch(`${this._baseUrl}/movies/${movie[0]._id}`, {
           method: 'DELETE',
           credentials: 'include'
         })
         .then(res => this._checkResponse(res))
     } else {
-      return fetch(`${this._baseUrl}/cards/${id}/likes`, {
-          method: 'PUT',
-          credentials: 'include'
+      return fetch(`${this._baseUrl}/movies`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': this._type
+          },
+          body: JSON.stringify({
+            "country": data.country,
+            "director": data.director,
+            "duration": data.duration,
+            "year": data.year,
+            "description": data.description,
+            "image": `${this._baseMovies}${data.image.url}`,
+            "trailerLink": data.trailerLink,
+            "nameRU": data.nameRU,
+            "nameEN": data.nameEN,
+            "thumbnail": `${this._baseMovies}${data.image.url}`,
+            "movieId": data.id
+          })
         })
         .then(res => this._checkResponse(res))
     }

@@ -8,6 +8,17 @@
   justify-content: center;
 }
 
+.moviesCardList__message {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+  color: #A0A0A0;
+  margin: 0 auto;
+  padding: 0;
+  grid-area: 1 / 1 / 2 / 3;
+}
+
 @media screen and (min-width: 768px) {
   .moviesCardList {
     padding: 70px 0 0;
@@ -20,5 +31,9 @@
   .moviesCardList {
     gap: 30px 24px;
     grid-template-columns: repeat(3, 364px);
+  }
+
+  .moviesCardList__message {
+    grid-area: 1 / 1 / 2 / 4;
   }
 }

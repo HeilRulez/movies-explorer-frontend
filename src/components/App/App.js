@@ -14,111 +14,112 @@ import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 
 export default function App() {
 
-const [loggedIn, setLoggedIn] = useState(false);
-const [currentUser, setCurrentUser] = useState({});
-const [myMovies, setMyMovies] = useState([]);
-const [allMovies, setAllMovies] = useState([]);
-const [movieItem, setMovieItem] = useState({});
-const [infoMessage, setInfoMessage] = useState('');
-const [loading, setLoading] = useState(false);
-const history = useHistory();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const [infoMessage, setInfoMessage] = useState('');
+  const history = useHistory();
 
-function resErrMes() {
-  setTimeout(() => setInfoMessage(''), 3000);
-}
+  function resErrMes() {
+    setTimeout(() => setInfoMessage(''), 3000);
+  }
 
-function onLogin(email, password) {
-  return mainApi.signin(email, password)
+  function onLogin(email, password) {
+    return mainApi.signin(email, password)
+      .then(res => {
+        if(res._id) {
+          setLoggedIn(true);
+          setCurrentUser(res);
+        }
+      })
+      .then(() => history.push('/'))
+      .catch(err => {
+        resErrMes();
+        setInfoMessage('Неверные данные авторизации!\n Попробуйте ещё раз.');
+        console.error(`Ошибка ${err} при попытке авторизации.`);
+      });
+  }
+
+  function onRegister(email, password, name) {
+    return mainApi.signup(email, password, name)
     .then(res => {
-      if(res._id) {
-        setLoggedIn(true);
-        setCurrentUser(res);
-        setMyMovies([]);
+      if(res) {
+        history.push('/signin');
       }
     })
-    .then(() => history.push('/'))
-    .catch(err => {
+    .catch((err) => {
       resErrMes();
-      setInfoMessage('Неверные данные авторизации!\n Попробуйте ещё раз.');
-      console.error(`Ошибка ${err} при попытке авторизации.`);
-    });
-}
-
-function onRegister(email, password, name) {
-  return mainApi.signup(email, password, name)
-  .then(res => {
-    if(res) {
-      history.push('/signin');
-    }
-  })
-  .catch((err) => {
-    resErrMes();
-    setInfoMessage('Что-то пошло не так!\n Попробуйте ещё раз.');
-    console.error(`Ошибка ${err} при регистрации.`);
-  })
-}
-
-function handleUpdateUser(name, email) {
-  mainApi.sendData(name, email)
-  .then((res) => {
-    setCurrentUser(res);
-  })
-  .catch(err => console.error(`Ошибка ${err} при отправке данных профиля.`));
-}
-
-function handleMovieDelete(id) {
-  mainApi.reqDelMovie(id)
-  .then(() => {
-    setMyMovies(myMovies.filter((item) => item._id !== id));
-})
-  .catch(err => console.error(`Ошибка ${err} при удалении фильма.`))
-}
-
-function handleMovieLike(movie) {
-  const isLiked = movie.likes.some(item => item === currentUser._id);
-  mainApi.handleLike(movie._id, !isLiked)
-  //   .then(сard => {
-  //     setCards((state) => state.map((c) => {
-  //       return c._id === card._id ? сard : c}));
-  // })
-    .catch(err => console.error(`Ошибка ${err} при обработке лайка.`));
-}
-
-function getAllMovies() {
-  setLoading(true);
-  moviesApi.getAllMovies()
-  .then((res) => {
-    setAllMovies(res);
-    // localStorage.setItem("data", res.map((item) => JSON.stringify(item)));
-  })
-  // .catch(err => console.error(`Ошибка ${err} при получении базы с фильмами.`));
-  .finally(() => setLoading(false))
-}
-
-function handleOut() {
-  return mainApi.logOut()
-  .then(() => {
-    setLoggedIn(false);
-  })
-  .catch(err => console.error(`Ошибка ${err} при выходе из аккаунта.`))
-}
-
-function getInfo() {
-  mainApi.getUserInfo()
-  .then((dataUser) => {
-    setLoggedIn(true);
-    setCurrentUser(dataUser)
+      setInfoMessage('Что-то пошло не так!\n Попробуйте ещё раз.');
+      console.error(`Ошибка ${err} при регистрации.`);
     })
-    .catch(err => console.error(`Ошибка ${err} при получении данных профиля.`));
-}
-
-useEffect(() => {
-  if(loggedIn) {
-    history.push('/movies');
-  } else {
-    getInfo();
   }
-}, [loggedIn]);
+
+  function handleUpdateUser(name, email) {
+    mainApi.sendData(name, email)
+    .then((res) => {
+      setCurrentUser(res);
+    })
+    .catch(err => console.error(`Ошибка ${err} при отправке данных профиля.`));
+  }
+
+  function handleMovieDelete(data) {
+    mainApi.getSaveMovie()
+    .then((saved) => {
+      const movie = saved.filter(item => item.movieId === data.id);
+      mainApi.reqDelMovie(movie)
+        .then((res) => {
+          console.log(res)
+        })
+    })
+    .catch(err => console.error(`Ошибка ${err} при удалении фильма.`))
+  }
+
+  function handleMovieLike(data) {
+    mainApi.getSaveMovie()
+    .then((saved) => {
+      const isLiked = saved.some(item => item.movieId === data.id);
+      const movie = saved.filter(item => item.movieId === data.id);
+      mainApi.handleLike(data, isLiked, movie)
+        .then(res => {
+          // const movies = ((state) => state.map((c) => {
+          //   return c._id === res._id ? res : c}));
+          //   console.log(res)
+          // localStorage.setItem('allMovies', JSON.stringify(movies))
+      })
+      .catch(err => console.error(`Ошибка ${err} при обработке лайка.`));
+    })
+  }
+
+  function handleOut() {
+    return mainApi.logOut()
+    .then(() => {
+      setLoggedIn(false);
+    })
+    .catch(err => console.error(`Ошибка ${err} при выходе из аккаунта.`))
+  }
+
+  function getInfo() {
+    mainApi.getUserInfo()
+    .then((dataUser) => {
+      setLoggedIn(true);
+      setCurrentUser(dataUser)
+      })
+      .catch(err => console.error(`Ошибка ${err} при получении данных профиля.`));
+  }
+
+  function getAllMovies() {
+    return moviesApi.getAllMovies()
+      .then((res) => {
+        localStorage.setItem('allMovies', JSON.stringify(res))
+      })
+  }
+
+  useEffect(() => {
+    if(loggedIn) {
+      history.push('/movies');
+    } else {
+      getInfo();
+    }
+  }, [loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -151,14 +152,11 @@ useEffect(() => {
             component={Main} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/movies'
-            getData={getAllMovies}
-            allMovie={allMovies}
             funcBtn={handleMovieLike}
-            loading={loading}
+            getAllMovies={getAllMovies}
             component={Movies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/saved-movies'
-            myMovies={myMovies}
             funcBtn={handleMovieDelete}
             component={SavedMovies} />
           <ProtectedRoute loggedIn={loggedIn}

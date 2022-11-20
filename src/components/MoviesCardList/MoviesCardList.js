@@ -1,15 +1,17 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-export default function MoviesCardList({ movies, funcBtn, classBtn }) {
+export default function MoviesCardList({ movies, errMessage, funcBtn, classBtn }) {
     return (
         <section className='moviesCardList'>
-          {movies.map((movie) => (
-            <MoviesCard key={movie.id}
-              data={movie}
-              classBtn={classBtn}
-              funcBtn={funcBtn}/>
-              ))}
+          {errMessage ? (<h1 className='moviesCardList__message'>{errMessage}</h1>) : (
+            movies.map((movie) => (
+              <MoviesCard key={movie.id}
+                data={movie}
+                classBtn={classBtn}
+                funcBtn={funcBtn}/>
+                )))
+            }
         </section>
     );
 }

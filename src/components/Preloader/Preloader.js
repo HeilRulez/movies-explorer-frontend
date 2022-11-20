@@ -1,12 +1,6 @@
 import './Preloader.css';
 
 export default function Preloader({ load, preloader }) {
-
-function yet() {
-  preloader()
-  // .then(() => console.log())
-}
-
   return (
     <section className='preloader'>
       {load && (
@@ -16,7 +10,7 @@ function yet() {
             </div>
         </div>
       )}
-      <button className='preloader__btn' type="button" onClick={yet}>Ещё</button>
+      <button className='preloader__btn' type="button" onClick={preloader}>Ещё</button>
     </section>
   );
 }

@@ -1,19 +1,26 @@
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './FilterCheckbox.css';
 
-export default function FilterCheckbox() {
+export default function FilterCheckbox({ checked }) {
 
-  const [value, setValue] = useState(true);
+  const ref = useRef();
 
-  function check() {
-    setValue(!value);
-    localStorage.setItem('checked', value);
+  useEffect(() => {
+    ref.current.checked = localStorage.getItem('checked')
+  }, [])
+
+
+  function check(e) {
+    checked(e.target.checked);
   }
 
   return (
     <div className='filterCheckbox'>
       <label className='checkbox'>
-        <input className='checkbox__checked' onChange={check}
+        <input
+          className='checkbox__checked'
+          ref={ref}
+          onChange={check}
           type="checkbox" name="shortFilms" />
         <span className="checkbox__slider"></span>
       </label>
