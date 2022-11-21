@@ -85,6 +85,10 @@
   transition: opacity .3s ease-in-out;
 }
 
+.form__submit_disable {
+  color: #A0A0A0;
+}
+
 .form__submit:hover {
   opacity: .6;
 }

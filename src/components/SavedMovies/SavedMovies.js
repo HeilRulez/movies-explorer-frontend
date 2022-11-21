@@ -27,7 +27,6 @@ export default function SavedMovies({ loggedIn, funcBtn }) {
   function loader() {
     mainApi.getSaveMovie()
     .then((res) => {
-      res.forEach((item) => {item.id = item.movieId});
       setMovies(res);
       localStorage.setItem('myMovies', JSON.stringify(res))
     })

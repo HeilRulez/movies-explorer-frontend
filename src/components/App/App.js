@@ -93,6 +93,7 @@ export default function App() {
     return mainApi.logOut()
     .then(() => {
       setLoggedIn(false);
+      history.push('/');
     })
     .catch(err => console.error(`Ошибка ${err} при выходе из аккаунта.`))
   }
@@ -103,7 +104,7 @@ export default function App() {
       setLoggedIn(true);
       setCurrentUser(dataUser)
       })
-      .catch(err => console.error(`Ошибка ${err} при получении данных профиля.`));
+      .catch(err => console.error(`Ошибка ${err}. Не авторизировано.`));
   }
 
   function getAllMovies() {
@@ -146,10 +147,10 @@ export default function App() {
               onSubmit={onRegister} />
           </Route>
 
-          <ProtectedRoute loggedIn={loggedIn}
-            exact
-            path='/'
-            component={Main} />
+          <Route exact path='/'>
+            <Main loggedIn={loggedIn} />
+          </Route>
+
           <ProtectedRoute loggedIn={loggedIn}
             path='/movies'
             funcBtn={handleMovieLike}

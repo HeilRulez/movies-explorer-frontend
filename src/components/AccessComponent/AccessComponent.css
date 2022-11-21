@@ -94,6 +94,10 @@
   transition: opacity .3s ease-in-out;
 }
 
+.access-form__btn-submit_disable {
+  background: #A0A0A0;
+}
+
 .access-form__btn-submit:hover {
   opacity: .6;
 }
