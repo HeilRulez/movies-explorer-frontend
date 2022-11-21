@@ -1,0 +1,138 @@
+.header {
+  min-height: 74px;
+  margin: 0;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  transition: opacity .3s ease-in-out;
+}
+
+.header__logo:hover {
+  opacity: .6;
+}
+
+.header__bntMenu {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 23px;
+  right: 31px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  z-index: 1;
+  border: none;
+  background: transparent;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.header__bntMenu > span,
+.header__bntMenu > span::before,
+.header__bntMenu > span::after {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background-color: #000;
+}
+
+.header__bntMenu_visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.header__bntMenu > span::before {
+  content: '';
+  top: -8px;
+}
+
+.header__bntMenu > span::after {
+  content: '';
+  top: 8px;
+}
+
+.header__link {
+  width: 100px;
+  height: 32px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+  text-decoration: none;
+  visibility: hidden;
+  border-radius: 20px;
+  background-color: #F9F9F9;
+}
+
+.header__container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__signin, .header__signup {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: right;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity .3s ease-in-out;
+}
+
+.header__signin {
+  width: 76px;
+  height: 32px;
+  background-color: #2BE080;
+  border-radius: 3px;
+  margin-left: 30px;
+}
+
+.header__signin:hover, .header__signup:hover {
+  opacity: .6;
+}
+
+.header__access-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media screen and (min-width: 480px) {
+  .header {
+    padding: 0 20px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    padding: 0 30px;
+  }
+
+  .header__link {
+    visibility: visible;
+  }
+
+  .header__bntMenu {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .header {
+    padding: 0 70px;
+  }
+}

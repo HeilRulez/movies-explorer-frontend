@@ -1,0 +1,126 @@
+.searchForm {
+  padding: 80px 0 10px;
+  box-sizing: border-box;
+}
+
+.searchForm__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchForm__input {
+  border: none;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000;
+  min-width: 80%;
+  background-color:rgba(0, 0, 0, 0);
+}
+
+.searchForm__input::placeholder {
+  color: #A0A0A0;
+}
+
+.searchForm__submit {
+  background-color: #3456F3;
+  border-radius: 20px;
+  border: none;
+  width: 34px;
+  height: 34px;
+  transition: opacity .3s ease-in-out;
+  position: relative;
+  cursor: pointer;
+}
+
+.searchForm__submit::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border:  solid #fff;
+  border-width: 2px 0 0 2px;
+  transform: translate(-50%, -50%) rotate(135deg);
+  position: absolute;
+  left: 45%;
+  top: 50%;
+}
+
+.searchForm__submit:hover {
+  opacity: .6;
+}
+
+.container__input {
+  height: 72px;
+  background-color: #F9F9F9;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 19px;
+}
+
+.searchForm__line {
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid #E8E8E8;
+}
+
+@media screen and (min-width: 480px) {
+  .searchForm {
+    padding: 80px 0 10px;
+    box-sizing: border-box;
+  }
+}
+
+@media screen and (min-width: 640px) {
+  .searchForm__form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 125px;
+    height: 72px;
+    background-color: #F9F9F9;
+    border-radius: 9px;
+    padding: 16px 19px;
+    box-sizing: border-box;
+  }
+
+  .container__input {
+    width: 100%;
+    background-color: none;
+    border-radius: 0;
+    padding: 0 19px 0 0;
+    height: 40px;
+  }
+
+  .searchForm__input {
+    font-size: 18px;
+  }
+
+  .searchForm__input::placeholder {
+    background-image: url(../../images/search.svg);
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: 10px 1px;
+    padding: 0 0 0 44px;
+  }
+
+  .checkbox__text {
+    font-size: 13px;
+  }
+
+  .searchForm__line {
+    padding: 110px 0 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .searchForm__form {
+    padding: 16px 30px 16px 19px;
+  }
+
+  .container__input {
+    padding: 0 30px 0 0;
+  }
+}

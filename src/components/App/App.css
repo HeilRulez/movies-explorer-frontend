@@ -1,0 +1,9 @@
+.app {
+  max-width: 1280px;
+  min-height: 100vh;
+  background-color: #fff;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0 auto;
+}

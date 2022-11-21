@@ -1,0 +1,84 @@
+.checkbox {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.checkbox:hover {
+  opacity: .6;
+}
+
+.checkbox__checked {
+  display:none;
+}
+
+.checkbox__slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 34px;
+  background-color: #EBEBEB;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.checkbox__checked:checked + .checkbox__slider {
+  background-color: #2BE080;
+}
+
+.checkbox__slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  border-radius: 20px;
+  background-color: #F5F5F5;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.checkbox__checked:checked + .checkbox__slider:before {
+  -webkit-transform: translateX(16px);
+  -ms-transform: translateX(16px);
+  transform: translateX(16px);
+  background-color: #fff;
+}
+
+.checkbox__text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 18px;
+  color: #000;
+  display: inline;
+  margin: 0 0 0 13px;
+  padding: 0;
+}
+
+.filterCheckbox {
+  padding: 45px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (min-width: 640px) {
+  .filterCheckbox {
+    padding: 0 0 0 19px;
+    border-left: 1px solid #CBCBCB;
+    height: 40px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .filterCheckbox {
+    padding: 0 0 0 30px;
+  }
+}

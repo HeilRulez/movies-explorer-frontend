@@ -1,0 +1,79 @@
+.notFound {
+  height: 100vh;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding: 30px;
+  box-sizing: border-box;
+}
+
+.notFound__container {
+  height: 405px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.notFound__title {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 80px;
+  line-height: 97px;
+  text-align: center;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.notFound__text {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: #000;
+  margin: 0;
+  padding: 10px 0 0 0;
+}
+
+.notFound__btn {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  text-align: center;
+  color: #3456F3;
+  border: none;
+  background-color:transparent;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 560px){
+  .notFound {
+    justify-content: center;
+  }
+
+  .notFound__title {
+    font-size: 140px;
+    line-height: 169px;
+  }
+
+  .notFound__btn {
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+  .notFound__text {
+    font-size: 16px;
+    line-height: 19px;
+    padding: 5px 0 0 0;
+  }
+}
+
+@media screen and (min-width: 1024px){
+  .notFound {
+    padding: 60px;
+  }
+}
