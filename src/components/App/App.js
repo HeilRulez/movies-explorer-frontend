@@ -17,6 +17,7 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [infoMessage, setInfoMessage] = useState('');
+  const [sarchedMovies, setSarchedMovies] = useState([]);
   const history = useHistory();
 
   function resErrMes() {
@@ -62,14 +63,10 @@ export default function App() {
   }
 
   function handleMovieDelete(data) {
-    mainApi.getSaveMovie()
-    .then((saved) => {
-      const movie = saved.filter(item => item.movieId === data.id);
-      mainApi.reqDelMovie(movie)
-        .then((res) => {
-          console.log(res)
-        })
-    })
+    return mainApi.reqDelMovie(data)
+            .then((res) => {
+
+            })
     .catch(err => console.error(`Ошибка ${err} при удалении фильма.`))
   }
 
@@ -78,11 +75,15 @@ export default function App() {
     .then((saved) => {
       const isLiked = saved.some(item => item.movieId === data.id);
       const movie = saved.filter(item => item.movieId === data.id);
-      mainApi.handleLike(data, isLiked, movie)
+      mainApi.handleLike(data, isLiked, movie[0])
         .then(res => {
+          // setSarchedMovies((state) => state.map((c) => {
+          //   return c._id === res._id ? res: c}));
+            console.log((state) => state.map((c) => {
+            return c._id === res._id ? res: c}));
+            // sarchedMovies,
           // const movies = ((state) => state.map((c) => {
           //   return c._id === res._id ? res : c}));
-          //   console.log(res)
           // localStorage.setItem('allMovies', JSON.stringify(movies))
       })
       .catch(err => console.error(`Ошибка ${err} при обработке лайка.`));
@@ -107,11 +108,30 @@ export default function App() {
       .catch(err => console.error(`Ошибка ${err}. Не авторизировано.`));
   }
 
+  function selectMovies(data) {
+    let sarchedMovie = data.filter(item => (
+      item.nameRU.toLowerCase().includes(localStorage.getItem('phrase').toString().toLowerCase())
+      ));
+    if (localStorage.getItem('checked')) {
+      sarchedMovie = sarchedMovie.filter(item => (item.duration < 40))
+    };
+    return sarchedMovie;
+  }
+
   function getAllMovies() {
-    return moviesApi.getAllMovies()
-      .then((res) => {
-        localStorage.setItem('allMovies', JSON.stringify(res))
-      })
+   return moviesApi.getAllMovies()
+    .then((res) => {
+      return selectMovies(res);
+    })
+  }
+
+  function getMyMovies() {
+    return mainApi.getSaveMovie()
+    .then((res) => {
+      localStorage.setItem('myMovies', JSON.stringify(res));
+      return selectMovies(res);
+    })
+    .catch(err => console.error(`Ошибка ${err} при загрузке фильмов.`))
   }
 
   useEffect(() => {
@@ -155,10 +175,15 @@ export default function App() {
             path='/movies'
             funcBtn={handleMovieLike}
             getAllMovies={getAllMovies}
+            setter={setSarchedMovies}
+            getter={sarchedMovies}
             component={Movies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/saved-movies'
             funcBtn={handleMovieDelete}
+            getMyMovies={getMyMovies}
+            // setter={setmyMovies}
+            // getter={selectMovies(myMovies)}
             component={SavedMovies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/profile'

@@ -1,48 +1,42 @@
 import './Movies.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
-export default function Movies({ loggedIn, funcBtn, getAllMovies }) {
+export default function Movies({ loggedIn, funcBtn, getAllMovies, getter, setter }) {
 
-  const [movies, setMovies] = useState([]);
-  const [selectedMovies, setSelectedMovies] = useState([]);
+  const [renderMovies, setRenderMovies] = useState([]);
+  const [part, setPart] = useState([]);
   const [showCard, setShowCard] = useState(false);
-  const [errMessage, setErrMessage] = useState(false);
+  const [errMessage, setErrMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [preloaderShow, setPreloaderShow] = useState(false);
   const amountCard = (window.screen.width < '1280' ? (2) : (3));
 
-  function selectMovies(data) {
-    let sarchedMovie = data.filter(item => (
-      item.nameRU.toLowerCase().includes(localStorage.getItem('phrase').toString().toLowerCase())
-      ));
-    if (localStorage.getItem('checked')) {
-      sarchedMovie = sarchedMovie.filter(item => (item.duration < 40))
-    };
-    return sarchedMovie;
-  }
+  useEffect(() => {
+    loader(getter)
+  }, [getter])
 
   function preloader() {
     if (!localStorage.getItem('phrase')) {
       return
     } else {
-      loader(movies)
+      loader(part)
     }
   }
 
   function loader(data) {
     if (data.length === 0) {
+      setPreloaderShow(false);
       setErrMessage("Ничего не найдено");
       return
     }
-    setErrMessage("");
     let items = data.splice(0, amountCard);
-    setMovies(data);
-    setSelectedMovies(selectedMovies.concat(items));
+    setPart(data);
+    setRenderMovies(renderMovies.concat(items));
     if (data.length !== 0) {
       setPreloaderShow(true)
     } else {
@@ -51,33 +45,36 @@ export default function Movies({ loggedIn, funcBtn, getAllMovies }) {
   }
 
   function search() {
-    selectedMovies.length = 0;
-    setLoading(true);
-    getAllMovies()
-    .then(() => {
-      setMovies([]);
-      if (!localStorage.getItem('phrase')) {
-        setErrMessage("Нужно ввести ключевое слово");
-        return
-      } else {
-        loader(selectMovies(JSON.parse(localStorage.getItem('allMovies'))));
-      }
-    })
-    .catch(() => {
-      setErrMessage("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
-    })
-    .finally(() => {
-      setShowCard(true);
-      setLoading(false)
-    });
+    setErrMessage('');
+    setPreloaderShow(false);
+    setShowCard(true);
+    if (!localStorage.getItem('phrase')) {
+      setErrMessage("Нужно ввести ключевое слово");
+      return
+    } else {
+      setRenderMovies([]);
+      setLoading(true);
+      setPreloaderShow(true);
+      getAllMovies()
+      .then((res) => {
+        setter(res)
+      })
+      .catch(() => {
+        setErrMessage("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
+      })
+      .finally(() => {
+        setLoading(false)
+        setPreloaderShow(false);
+      })
     }
+  }
 
     return (
       <main className='movies'>
         <Header loggedIn={loggedIn} />
         <SearchForm onSub={search} />
         {showCard && (
-          <MoviesCardList movies={selectedMovies}
+          <MoviesCardList movies={renderMovies}
             errMessage={errMessage}
             funcBtn={funcBtn} classBtn={''} />
         )}

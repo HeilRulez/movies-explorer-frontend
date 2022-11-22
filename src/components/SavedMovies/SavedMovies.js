@@ -1,48 +1,48 @@
 import './SavedMovies.css';
-import mainApi from '../../utils/MainApi';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import { useEffect, useState } from 'react';
 
-export default function SavedMovies({ loggedIn, funcBtn }) {
+export default function SavedMovies({ loggedIn, funcBtn, getMyMovies }) {
 
-  const [movies, setMovies] = useState([]);
+  const [renderMovies, setRenderMovies] = useState([]);
+  const [errMessage, setErrMessage] = useState('');
 
   useEffect(() => {
     loader()
   }, [])
 
-  function selectMovies(data) {
-    let sarchedMovie = data.filter(item => (
-      item.nameRU.toLowerCase().includes(localStorage.getItem('phrase').toString().toLowerCase())
-      ));
-    if (localStorage.getItem('checked')) {
-      sarchedMovie = sarchedMovie.filter(item => (item.duration < 39))
-    };
-    return sarchedMovie;
-  }
+  useEffect(() => {
+  }, [renderMovies])
 
   function loader() {
-    mainApi.getSaveMovie()
-    .then((res) => {
-      setMovies(res);
-      localStorage.setItem('myMovies', JSON.stringify(res))
+    getMyMovies()
+    .then(() => {
+      setRenderMovies(JSON.parse(localStorage.getItem('myMovies')))
     })
-    .catch(err => console.error(`Ошибка ${err} при загрузке фильмов.`))
-
   }
 
   function search() {
-    setMovies(selectMovies(JSON.parse(localStorage.getItem('myMovies'))));
+    setErrMessage('');
+    getMyMovies()
+    .then((res) => {
+      if (res.length === 0) {
+        setErrMessage('Ничего не найдено');
+        return
+      }
+      setRenderMovies(res)
+    })
   }
 
   return (
     <main className='savedMovies'>
       <Header loggedIn={loggedIn} />
       <SearchForm onSub={search} />
-      <MoviesCardList movies={movies} funcBtn={funcBtn} classBtn={'moviesCard__btnDel'} />
+      <MoviesCardList movies={renderMovies}
+        errMessage={errMessage}
+        funcBtn={funcBtn} classBtn={'moviesCard__btnDel'} />
       <Footer />
     </main>
   )

@@ -23,7 +23,7 @@ class MainApi {
   }
 
   reqDelMovie(movie) {
-    return fetch(`${this._baseUrl}/movies/${movie[0]._id}`, {
+    return fetch(`${this._baseUrl}/movies/${movie._id}`, {
         method: 'DELETE',
         credentials: 'include'
       })
@@ -39,7 +39,7 @@ class MainApi {
 
   handleLike(data, isLiked, movie) {
     if (isLiked) {
-      return fetch(`${this._baseUrl}/movies/${movie[0]._id}`, {
+      return fetch(`${this._baseUrl}/movies/${movie._id}`, {
           method: 'DELETE',
           credentials: 'include'
         })
