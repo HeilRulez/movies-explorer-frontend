@@ -77,11 +77,16 @@ export default function App() {
       const movie = saved.filter(item => item.movieId === data.id);
       mainApi.handleLike(data, isLiked, movie[0])
         .then(res => {
-          // setSarchedMovies((state) => state.map((c) => {
-          //   return c._id === res._id ? res: c}));
-            console.log((state) => state.map((c) => {
-            return c._id === res._id ? res: c}));
+          setSarchedMovies((state) => state.map((c) => {
+
+            return c.id === data._id ? data: c}));
+
+          // console.log(res)
+            // console.log((state) => state.map((c) => {
+            // return c._id === res._id ? res: c}));
             // sarchedMovies,
+
+
           // const movies = ((state) => state.map((c) => {
           //   return c._id === res._id ? res : c}));
           // localStorage.setItem('allMovies', JSON.stringify(movies))
@@ -140,7 +145,7 @@ export default function App() {
     } else {
       getInfo();
     }
-  }, [loggedIn]);
+  }, [loggedIn, history]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
