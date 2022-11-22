@@ -7,7 +7,7 @@ export default function MoviesCard({ data, funcBtn, classBtn }) {
   const time = `${(hour !== 0) ? (`${hour}ч `) : ('')}${data.duration%60}м`;
   const myMovies = JSON.parse(localStorage.getItem('myMovies'));
   const classLike = (
-    myMovies.some(item => data.id === item.movieId)
+    myMovies.some(item => data.id === item.id)
   )
     ? ('moviesCard__btnAdd') : ('moviesCard__btnNoAdd');
 

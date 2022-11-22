@@ -74,7 +74,6 @@ export default function App() {
 
   function handleMovieLike(data) {
     const isLiked = myMovies.some(item => item.id === data.id);
-    console.log(myMovies);
     if (isLiked) {
       handleMovieDelete(data)
     }
@@ -133,7 +132,7 @@ export default function App() {
   }
 
   function getMyMovies() {
-    mainApi.getSaveMovie()
+   return mainApi.getSaveMovie()
     .then((res) => {
       localStorage.setItem('myMovies', JSON.stringify(res));
       setMyMovies(res);
@@ -193,8 +192,9 @@ export default function App() {
           <ProtectedRoute loggedIn={loggedIn}
             path='/saved-movies'
             funcBtn={handleMovieDelete}
+            getMyMovies={getMyMovies}
             searchMovies={searchInMyMovies}
-            getter={myMovies}
+            myMovies={myMovies}
             component={SavedMovies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/profile'

@@ -37,14 +37,7 @@ class MainApi {
       .then(res => this._checkResponse(res))
   }
 
-  handleLike(data, isLiked) {
-    // if (isLiked) {
-      // return fetch(`${this._baseUrl}/movies/${data.id}`, {
-      //     method: 'DELETE',
-      //     credentials: 'include'
-      //   })
-      //   .then(res => this._checkResponse(res))
-    // } else {
+  handleLike(data) {
       return fetch(`${this._baseUrl}/movies`, {
           method: 'POST',
           credentials: 'include',
