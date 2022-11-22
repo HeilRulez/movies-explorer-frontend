@@ -1,47 +1,31 @@
 import './SavedMovies.css';
+import { useState } from 'react';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
-import { useEffect, useState } from 'react';
+import selectMovies from '../../utils/selection';
 
-export default function SavedMovies({ loggedIn, funcBtn, getMyMovies, searchMovies, myMovies }) {
+export default function SavedMovies({ loggedIn, funcBtn, data }) {
 
-  const [renderMovies, setRenderMovies] = useState([]);
+  const [renderMovies, setRenderMovies] = useState(data);
   const [errMessage, setErrMessage] = useState('');
-
-  useEffect(() => {
-    loader()
-  }, [renderMovies])
-
-  function loader() {
-    getMyMovies()
-    .then(() => {
-      // setRenderMovies(getter)
-      // setRenderMovies(JSON.parse(localStorage.getItem('myMovies')))
-    })
-  }
 
   function search() {
     setErrMessage('');
-    setRenderMovies(searchMovies());
-
-
-    // getMyMovies()
-    // .then((res) => {
-    //   if (res.length === 0) {
-    //     setErrMessage('Ничего не найдено');
-    //     return
-    //   }
-    //   setRenderMovies(res)
-    // })
+    const foundMovies = selectMovies(data);
+    if (foundMovies.length === 0) {
+      setErrMessage('Ничего не найдено');
+    } else {
+      setRenderMovies(foundMovies)
+    }
   }
 
   return (
     <main className='savedMovies'>
       <Header loggedIn={loggedIn} />
       <SearchForm onSub={search} />
-      <MoviesCardList movies={myMovies}
+      <MoviesCardList movies={renderMovies}
         errMessage={errMessage}
         funcBtn={funcBtn} classBtn={'moviesCard__btnDel'} />
       <Footer />

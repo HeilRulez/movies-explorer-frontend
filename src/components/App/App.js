@@ -64,11 +64,11 @@ export default function App() {
   }
 
   function handleMovieDelete(data) {
-    return mainApi.reqDelMovie(data)
-            .then((data) => {
-              setMyMovies((state) => state.map((c) => {
-                return c.id === data._id ? data: c}))
-            })
+    mainApi.reqDelMovie(data)
+      .then((data) => {
+        setMyMovies((state) => state.map((c) => {
+          return c.id === data._id ? data: c}))
+      })
     .catch(err => console.error(`Ошибка ${err} при удалении фильма.`))
   }
 
@@ -114,34 +114,22 @@ export default function App() {
       .catch(err => console.error(`Ошибка ${err}. Не авторизировано.`));
   }
 
-  function selectMovies(data) {
-    let sarchedMovie = data.filter(item => (
-      item.nameRU.toLowerCase().includes(localStorage.getItem('phrase').toString().toLowerCase())
-      ));
-    if (localStorage.getItem('checked')) {
-      sarchedMovie = sarchedMovie.filter(item => (item.duration < 40))
-    };
-    return sarchedMovie;
-  }
+
 
   function getAllMovies() {
    return moviesApi.getAllMovies()
     .then((res) => {
-      return selectMovies(res);
+      // return selectMovies(res);
     })
   }
 
   function getMyMovies() {
-   return mainApi.getSaveMovie()
+   mainApi.getSaveMovie()
     .then((res) => {
       localStorage.setItem('myMovies', JSON.stringify(res));
       setMyMovies(res);
     })
     .catch(err => console.error(`Ошибка ${err} при загрузке фильмов.`))
-  }
-
-  function searchInMyMovies() {
-    return selectMovies(myMovies);
   }
 
   useEffect(() => {
@@ -192,9 +180,7 @@ export default function App() {
           <ProtectedRoute loggedIn={loggedIn}
             path='/saved-movies'
             funcBtn={handleMovieDelete}
-            getMyMovies={getMyMovies}
-            searchMovies={searchInMyMovies}
-            myMovies={myMovies}
+            data={myMovies}
             component={SavedMovies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/profile'
