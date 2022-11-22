@@ -34,8 +34,9 @@ export default function Movies({ loggedIn, funcBtn, getAllMovies, getter, setter
       setErrMessage("Ничего не найдено");
       return
     }
-    let items = data.splice(0, amountCard);
-    setPart(data);
+    const movies = data.slice();
+    let items = movies.splice(0, amountCard);
+    setPart(movies);
     setRenderMovies(renderMovies.concat(items));
     if (data.length !== 0) {
       setPreloaderShow(true)

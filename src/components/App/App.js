@@ -18,6 +18,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [infoMessage, setInfoMessage] = useState('');
   const [sarchedMovies, setSarchedMovies] = useState([]);
+  const [myMovies, setMyMovies] = useState([]);
   const history = useHistory();
 
   function resErrMes() {
@@ -64,35 +65,36 @@ export default function App() {
 
   function handleMovieDelete(data) {
     return mainApi.reqDelMovie(data)
-            .then((res) => {
-
+            .then((data) => {
+              setMyMovies((state) => state.map((c) => {
+                return c.id === data._id ? data: c}))
             })
     .catch(err => console.error(`Ошибка ${err} при удалении фильма.`))
   }
 
   function handleMovieLike(data) {
-    mainApi.getSaveMovie()
-    .then((saved) => {
-      const isLiked = saved.some(item => item.movieId === data.id);
-      const movie = saved.filter(item => item.movieId === data.id);
-      mainApi.handleLike(data, isLiked, movie[0])
-        .then(res => {
-          setSarchedMovies((state) => state.map((c) => {
+    const isLiked = myMovies.some(item => item.id === data.id);
+    console.log(myMovies);
+    if (isLiked) {
+      handleMovieDelete(data)
+    }
+    mainApi.handleLike(data, isLiked)
+      .then(data => {
 
-            return c.id === data._id ? data: c}));
-
-          // console.log(res)
-            // console.log((state) => state.map((c) => {
-            // return c._id === res._id ? res: c}));
-            // sarchedMovies,
-
-
-          // const movies = ((state) => state.map((c) => {
-          //   return c._id === res._id ? res : c}));
-          // localStorage.setItem('allMovies', JSON.stringify(movies))
+        // setSarchedMovies((state) => state.map((c) => {
+        //   return c.id === data._id ? data: c}));
       })
+
+    // mainApi.getSaveMovie()
+    // .then((saved) => {
+    //   const isLiked = saved.some(item => item.movieId === data.id);
+    //   const movie = saved.filter(item => item.movieId === data.id);
+    //   mainApi.handleLike(data, isLiked, movie[0])
+    //     .then(res => {
+    //       setSarchedMovies((state) => state.map((c) => {
+    //         return c.id === data._id ? data: c}));
+    //   })
       .catch(err => console.error(`Ошибка ${err} при обработке лайка.`));
-    })
   }
 
   function handleOut() {
@@ -131,16 +133,21 @@ export default function App() {
   }
 
   function getMyMovies() {
-    return mainApi.getSaveMovie()
+    mainApi.getSaveMovie()
     .then((res) => {
       localStorage.setItem('myMovies', JSON.stringify(res));
-      return selectMovies(res);
+      setMyMovies(res);
     })
     .catch(err => console.error(`Ошибка ${err} при загрузке фильмов.`))
   }
 
+  function searchInMyMovies() {
+    return selectMovies(myMovies);
+  }
+
   useEffect(() => {
     if(loggedIn) {
+      getMyMovies();
       history.push('/movies');
     } else {
       getInfo();
@@ -186,9 +193,8 @@ export default function App() {
           <ProtectedRoute loggedIn={loggedIn}
             path='/saved-movies'
             funcBtn={handleMovieDelete}
-            getMyMovies={getMyMovies}
-            // setter={setmyMovies}
-            // getter={selectMovies(myMovies)}
+            searchMovies={searchInMyMovies}
+            getter={myMovies}
             component={SavedMovies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/profile'

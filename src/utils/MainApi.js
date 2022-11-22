@@ -23,7 +23,7 @@ class MainApi {
   }
 
   reqDelMovie(movie) {
-    return fetch(`${this._baseUrl}/movies/${movie._id}`, {
+    return fetch(`${this._baseUrl}/movies/${movie.id}`, {
         method: 'DELETE',
         credentials: 'include'
       })
@@ -37,14 +37,14 @@ class MainApi {
       .then(res => this._checkResponse(res))
   }
 
-  handleLike(data, isLiked, movie) {
-    if (isLiked) {
-      return fetch(`${this._baseUrl}/movies/${movie._id}`, {
-          method: 'DELETE',
-          credentials: 'include'
-        })
-        .then(res => this._checkResponse(res))
-    } else {
+  handleLike(data, isLiked) {
+    // if (isLiked) {
+      // return fetch(`${this._baseUrl}/movies/${data.id}`, {
+      //     method: 'DELETE',
+      //     credentials: 'include'
+      //   })
+      //   .then(res => this._checkResponse(res))
+    // } else {
       return fetch(`${this._baseUrl}/movies`, {
           method: 'POST',
           credentials: 'include',
@@ -62,11 +62,11 @@ class MainApi {
             "nameRU": data.nameRU,
             "nameEN": data.nameEN,
             "thumbnail": `${this._baseMovies}${data.image.url}`,
-            "movieId": data.id
+            "id": data.id
           })
         })
         .then(res => this._checkResponse(res))
-    }
+    // }
   }
 
   sendData(name, email) {
