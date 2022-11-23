@@ -10,6 +10,7 @@ import ErrorNotFound from '../ErrorNotFound/ErrorNotFound';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import selectMovies from '../../utils/selection';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 
 export default function App() {
@@ -17,7 +18,9 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [infoMessage, setInfoMessage] = useState('');
+  const [errMessage, setErrMessage] = useState('');
   const [sarchedMovies, setSarchedMovies] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
   const [myMovies, setMyMovies] = useState([]);
   const history = useHistory();
 
@@ -114,13 +117,26 @@ export default function App() {
       .catch(err => console.error(`Ошибка ${err}. Не авторизировано.`));
   }
 
-
-
   function getAllMovies() {
-   return moviesApi.getAllMovies()
-    .then((res) => {
-      // return selectMovies(res);
+    setErrMessage('');
+    setAllMovies([]);
+    if (!localStorage.getItem('phrase')) {
+      setErrMessage("Нужно ввести ключевое слово");
+      return
+    } else {
+      moviesApi.getAllMovies()
+      .then((res) => {
+        const foundMovies = selectMovies(res);
+        if (foundMovies.length === 0) {
+          setErrMessage('Ничего не найдено');
+        } else {
+          setAllMovies(foundMovies)
+        }
+      })
+      .catch(() => {
+        setErrMessage("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
     })
+    }
   }
 
   function getMyMovies() {
@@ -130,6 +146,16 @@ export default function App() {
       setMyMovies(res);
     })
     .catch(err => console.error(`Ошибка ${err} при загрузке фильмов.`))
+  }
+
+  function searchMovie() {
+    setErrMessage('');
+    const foundMovies = selectMovies(JSON.parse(localStorage.getItem('myMovies')));
+    if (foundMovies.length === 0) {
+      setErrMessage('Ничего не найдено');
+    } else {
+      setMyMovies(foundMovies)
+    }
   }
 
   useEffect(() => {
@@ -173,12 +199,14 @@ export default function App() {
           <ProtectedRoute loggedIn={loggedIn}
             path='/movies'
             funcBtn={handleMovieLike}
-            getAllMovies={getAllMovies}
-            setter={setSarchedMovies}
-            getter={sarchedMovies}
+            searchMovie={getAllMovies}
+            errMessage={errMessage}
+            data={allMovies}
             component={Movies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/saved-movies'
+            searchMovie={searchMovie}
+            errMessage={errMessage}
             funcBtn={handleMovieDelete}
             data={myMovies}
             component={SavedMovies} />
