@@ -23,7 +23,7 @@ class MainApi {
   }
 
   reqDelMovie(movie) {
-    return fetch(`${this._baseUrl}/movies/${movie.id}`, {
+    return fetch(`${this._baseUrl}/movies/${movie}`, {
         method: 'DELETE',
         credentials: 'include'
       })

@@ -6,56 +6,33 @@ import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
-export default function Movies({ loggedIn, funcBtn, searchMovie, errMessage, data }) {
+export default function Movies({
+  loggedIn, funcBtn, searchMovie, errMessage, preload, showPreloader, data
+}) {
 
-  const [renderMovies, setRenderMovies] = useState([]);
-  const [part, setPart] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [preloaderShow, setPreloaderShow] = useState(false);
-  const amountCard = (window.screen.width < '1280' ? (2) : (3));
 
   function preloader() {
-    // if (!localStorage.getItem('phrase')) {
-    //   return
-    // } else {
-      loader(part)
-    // }
-  }
-
-  function loader(data) {
-    const movies = data.slice();
-    if (movies.length !== 0) {
-      setPreloaderShow(true)
-      let items = movies.splice(0, amountCard);
-      setPart(movies);
-      setRenderMovies(renderMovies.concat(items));
-    }else {
-      setPreloaderShow(false)
-    }
+    preload()
   }
 
   function search() {
-    setPreloaderShow(false);
     setLoading(true);
     searchMovie()
-    .then(() => {
-      loader(data)
-    })
-    .finally(() => {
-      setLoading(false)
-      setPreloaderShow(false);
-    })
+      .finally(() => {
+        setLoading(false)
+      })
   }
 
     return (
       <main className='movies'>
         <Header loggedIn={loggedIn} />
         <SearchForm onSub={search} />
-        <MoviesCardList movies={renderMovies}
+        <MoviesCardList movies={data}
           errMessage={errMessage}
-          funcBtn={funcBtn} classBtn={''} />
+          funcBtn={funcBtn} />
         {
-          preloaderShow && (<Preloader load={loading} preloader={preloader} />)
+          showPreloader && (<Preloader load={loading} preloader={preloader} />)
         }
         <Footer />
       </main>

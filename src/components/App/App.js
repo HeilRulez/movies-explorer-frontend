@@ -19,9 +19,11 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [infoMessage, setInfoMessage] = useState('');
   const [errMessage, setErrMessage] = useState('');
-  const [sarchedMovies, setSarchedMovies] = useState([]);
   const [allMovies, setAllMovies] = useState([]);
+  const [part, setPart] = useState([]);
   const [myMovies, setMyMovies] = useState([]);
+  const [showPreloader, setShowPreloader] = useState(false);
+  const amountCard = (window.screen.width < '1280' ? (2) : (3));
   const history = useHistory();
 
   function resErrMes() {
@@ -67,10 +69,11 @@ export default function App() {
   }
 
   function handleMovieDelete(data) {
-    mainApi.reqDelMovie(data)
-      .then((data) => {
-        setMyMovies((state) => state.map((c) => {
-          return c.id === data._id ? data: c}))
+    mainApi.reqDelMovie(data.id)
+      .then(async () => {
+        const movies = await myMovies.filter((item) => item.id !== data.id);
+        setMyMovies(movies)
+        localStorage.setItem('myMovies', JSON.stringify(movies));
       })
     .catch(err => console.error(`Ошибка ${err} при удалении фильма.`))
   }
@@ -78,25 +81,16 @@ export default function App() {
   function handleMovieLike(data) {
     const isLiked = myMovies.some(item => item.id === data.id);
     if (isLiked) {
-      handleMovieDelete(data)
-    }
-    mainApi.handleLike(data, isLiked)
-      .then(data => {
-
-        // setSarchedMovies((state) => state.map((c) => {
-        //   return c.id === data._id ? data: c}));
+      handleMovieDelete(data);
+    } else{
+      mainApi.handleLike(data)
+      .then(async data => {
+        const movies = await [data, ...myMovies]
+        await localStorage.setItem('myMovies', JSON.stringify(movies));
+        setMyMovies(JSON.parse(localStorage.getItem('myMovies')));
       })
-
-    // mainApi.getSaveMovie()
-    // .then((saved) => {
-    //   const isLiked = saved.some(item => item.movieId === data.id);
-    //   const movie = saved.filter(item => item.movieId === data.id);
-    //   mainApi.handleLike(data, isLiked, movie[0])
-    //     .then(res => {
-    //       setSarchedMovies((state) => state.map((c) => {
-    //         return c.id === data._id ? data: c}));
-    //   })
-      .catch(err => console.error(`Ошибка ${err} при обработке лайка.`));
+      .catch(err => console.error(`Ошибка ${err} при обработке лайка.`))
+    }
   }
 
   function handleOut() {
@@ -117,26 +111,39 @@ export default function App() {
       .catch(err => console.error(`Ошибка ${err}. Не авторизировано.`));
   }
 
+  function preloader() {
+    loader(part)
+  }
+
+  function loader(data) {
+    setShowPreloader(true)
+    const movies = data.slice();
+    let items = movies.splice(0, amountCard);
+    setPart(movies);
+    setAllMovies(allMovies.concat(items));
+    if (movies.length === 0) {
+      setShowPreloader(false)
+    }
+}
+
   function getAllMovies() {
     setErrMessage('');
-    setAllMovies([]);
-    if (!localStorage.getItem('phrase')) {
-      setErrMessage("Нужно ввести ключевое слово");
-      return
-    } else {
-      moviesApi.getAllMovies()
+    allMovies.length = 0;
+      return moviesApi.getAllMovies()
       .then((res) => {
         const foundMovies = selectMovies(res);
-        if (foundMovies.length === 0) {
+        if (!localStorage.getItem('phrase')) {
+          setErrMessage('Нужно ввести ключевое слово');
+        } else if (foundMovies.length === 0) {
           setErrMessage('Ничего не найдено');
+          setShowPreloader(false);
         } else {
-          setAllMovies(foundMovies)
+          loader(foundMovies);
         }
       })
       .catch(() => {
-        setErrMessage("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
-    })
-    }
+          setErrMessage("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
+      })
   }
 
   function getMyMovies() {
@@ -201,6 +208,8 @@ export default function App() {
             funcBtn={handleMovieLike}
             searchMovie={getAllMovies}
             errMessage={errMessage}
+            preload={preloader}
+            showPreloader={showPreloader}
             data={allMovies}
             component={Movies} />
           <ProtectedRoute loggedIn={loggedIn}
