@@ -14,7 +14,7 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
 
   function handleSubmit(e) {
     e.preventDefault();    if (link === '/signin') {
-      onSubmit(values.userName, values.email, values.password)
+      onSubmit(values.name, values.email, values.password)
       .then(() => {
       })
     } else if (link === '/signup') {
@@ -37,10 +37,10 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
               <input className="access-form__input"
                 onChange={handleChange}
                 value={values.name}
-                id="nameInput" type="text" name="userName"
+                id="nameInput" type="text" name="name"
                 required
                 autoComplete="off" />
-              <span className="access-form__text-error">{errors.userName}</span>
+              <span className="access-form__text-error">{errors.name}</span>
               </>)}
             <p className='access-form__text'>E-mail</p>
             <input className="access-form__input"
