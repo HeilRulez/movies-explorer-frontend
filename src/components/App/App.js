@@ -226,10 +226,9 @@ export default function App() {
             component={Profile} />
 
           <ProtectedRoute loggedIn={loggedIn}
-            path='/ggg'
+            path='/'
             component={ErrorNotFound} />
-            {/* <ErrorNotFound /> */}
-          {/* </ProtectedRoute> */}
+
         </Switch>
       </div>
     </CurrentUserContext.Provider>

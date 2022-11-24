@@ -6,23 +6,20 @@ import useFormWithValidation from '../../utils/validation';
 export default function AccessComponent({ link, linkPreText, linkText, headerText, btnText, message, onSubmit }) {
 
   const [errMessage, setErrMessage] = useState('');
-  const { values, handleChange, errors, isValid, resetForm } = useFormWithValidation();
+  const { values, handleChange, errors, isValid } = useFormWithValidation();
 
   useEffect(() => {
     setErrMessage(message);
   }, [message]);
 
   function handleSubmit(e) {
-    e.preventDefault();
-    if (link === '/signin') {
+    e.preventDefault();    if (link === '/signin') {
       onSubmit(values.userName, values.email, values.password)
       .then(() => {
-        resetForm();
       })
     } else if (link === '/signup') {
       onSubmit(values.email, values.password)
       .then(() => {
-        resetForm();
       })
     }
   }
@@ -34,7 +31,7 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
           <div className='access__logo' />
           <h1 className ='access__title'>{headerText}</h1>
         </div>
-        <form className='access-form' onSubmit={handleSubmit} name='signin' noValidate>
+        <form className='access-form' onSubmit={handleSubmit} name='access' noValidate>
           <div>
             {(link === '/signin') && (<><p className='access-form__text'>Имя</p>
               <input className="access-form__input"
