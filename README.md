@@ -3,7 +3,7 @@
 
 Ссылка на макет "https://disk.yandex.ru/d/VYHXSMbXln4ZBw"
 
-https://github.com/HeilRulez/movies-explorer-frontend/pull/2
+https://github.com/HeilRulez/movies-explorer-frontend/pull/3
 
 
 Ссылка на front "https://tvoyomesto.nomorepartiesxyz.ru"

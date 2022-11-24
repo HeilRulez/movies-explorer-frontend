@@ -185,7 +185,7 @@ export default function App() {
               linkText={'Регистрация'}
               headerText={'Рады видеть!'}
               btnText={'Войти'}
-              message={infoMessage}
+              reqMessage={infoMessage}
               onSubmit={onLogin} />
           </Route>
           <Route path='/signup'>
@@ -195,7 +195,7 @@ export default function App() {
               linkText={'Войти'}
               headerText={'Добро пожаловать!'}
               btnText={'Зарегистрироваться'}
-              message={infoMessage}
+              reqMessage={infoMessage}
               onSubmit={onRegister} />
           </Route>
 
