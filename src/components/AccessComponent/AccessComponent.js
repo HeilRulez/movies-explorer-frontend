@@ -1,25 +1,22 @@
 import './AccessComponent.css';
-import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
-import useFormWithValidation from '../../utils/validation';
 
-export default function AccessComponent({ link, linkPreText, linkText, headerText, btnText, message, onSubmit }) {
+export default function AccessComponent({ link, linkPreText, linkText, headerText, btnText, reqMessage, onSubmit }) {
 
-  const [errMessage, setErrMessage] = useState('');
-  const { values, handleChange, errors, isValid } = useFormWithValidation();
 
-  useEffect(() => {
-    setErrMessage(message);
-  }, [message]);
+  const { register, formState: {errors, isValid, isDirty}, handleSubmit, reset } = useForm({mode: "onChange"});
 
-  function handleSubmit(e) {
-    e.preventDefault();    if (link === '/signin') {
-      onSubmit(values.userName, values.email, values.password)
+  function submit(data) {
+    const { userName, email, password } = data
+    if (link === '/signin') {
+      onSubmit(userName, email, password)
       .then(() => {
       })
     } else if (link === '/signup') {
-      onSubmit(values.email, values.password)
+      onSubmit(email, password)
       .then(() => {
+        reset();
       })
     }
   }
@@ -31,38 +28,38 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
           <div className='access__logo' />
           <h1 className ='access__title'>{headerText}</h1>
         </div>
-        <form className='access-form' onSubmit={handleSubmit} name='access' noValidate>
+        <form className='access-form' onSubmit={handleSubmit(submit)} name='access' noValidate>
           <div>
             {(link === '/signin') && (<><p className='access-form__text'>Имя</p>
-              <input className="access-form__input"
-                onChange={handleChange}
-                value={values.name}
-                id="nameInput" type="text" name="userName"
-                required
-                autoComplete="off" />
-              <span className="access-form__text-error">{errors.userName}</span>
+              <input className="access-form__input" type='text'
+                {...register('userName', {
+                  required: 'Не должно быть пустым',
+                  pattern: {value: /^[A-Za-zА-Яа-яЁё-\s]{2,30}$/,
+                            message: 'Недопустимые символы'},
+                  minLength: {value: 2, message: 'Должно быть больше 2-х символов'},
+                  maxLength: {value: 30, message: 'Должно быть больше 30-и символов'}
+                })} />
+              <span className="access-form__text-error">{errors?.userName && errors?.userName?.message}</span>
               </>)}
             <p className='access-form__text'>E-mail</p>
-            <input className="access-form__input"
-              onChange={handleChange}
-              value={values.name}
-              id="emailInput" type="email" name="email"
-              required
-              autoComplete="off" />
-            <span className="access-form__text-error">{errors.email}</span>
+            <input className="access-form__input" type="email"
+              {...register('email', {
+                required: 'Не должно быть пустым',
+                pattern: {value: /[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}/,
+                          message: 'Введите E-mail адрес'}
+              })} />
+            <span className="access-form__text-error">{errors?.email && errors?.email?.message}</span>
             <p className='access-form__text'>Пароль</p>
-            <input className="access-form__input"
-              onChange={handleChange}
-              value={values.name}
-              id="password" type="password" name="password"
-              required
-              autoComplete="off" />
-            <span className="access-form__text-error">{errors.password}</span>
+            <input className="access-form__input" type="password"
+              {...register('password', {
+                required: 'Не должно быть пустым'
+              })} />
+            <span className="access-form__text-error">{errors?.password && errors?.password?.message}</span>
           </div>
           <div>
-            <span className="access-form__text-error btn-err" id="btn-submit-error">{errMessage}</span>
-            <button className={`access-form__btn-submit ${!isValid && 'access-form__btn-submit_disable'}`}
-              id="btn-submit" type="submit" disabled={!isValid}>{btnText}</button>
+            <span className="access-form__text-error btn-err" id="btn-submit-error">{reqMessage}</span>
+            <button className={`access-form__btn-submit ${(isDirty && !isValid) && 'access-form__btn-submit_disable'}`}
+              type="submit" disabled={!isValid}>{btnText}</button>
             <p className="access__text-forLink">
               {linkPreText}
               <Link className="access__link" to={link}>{linkText}</Link>
