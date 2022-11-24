@@ -10,6 +10,7 @@ import ErrorNotFound from '../ErrorNotFound/ErrorNotFound';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import selectMovies from '../../utils/selection';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 
 export default function App() {
@@ -17,7 +18,12 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [infoMessage, setInfoMessage] = useState('');
-  const [sarchedMovies, setSarchedMovies] = useState([]);
+  const [errMessage, setErrMessage] = useState('');
+  const [allMovies, setAllMovies] = useState([]);
+  const [part, setPart] = useState([]);
+  const [myMovies, setMyMovies] = useState([]);
+  const [showPreloader, setShowPreloader] = useState(false);
+  const amountCard = (window.screen.width < '1280' ? (2) : (3));
   const history = useHistory();
 
   function resErrMes() {
@@ -40,8 +46,8 @@ export default function App() {
       });
   }
 
-  function onRegister(email, password, name) {
-    return mainApi.signup(email, password, name)
+  function onRegister(name, email, password) {
+    return mainApi.signup(name, email, password)
     .then(res => {
       if(res) {
         history.push('/signin');
@@ -63,31 +69,28 @@ export default function App() {
   }
 
   function handleMovieDelete(data) {
-    return mainApi.reqDelMovie(data)
-            .then((res) => {
-
-            })
+    mainApi.reqDelMovie(data.id)
+      .then(async () => {
+        const movies = await myMovies.filter((item) => item.id !== data.id);
+        setMyMovies(movies)
+        localStorage.setItem('myMovies', JSON.stringify(movies));
+      })
     .catch(err => console.error(`Ошибка ${err} при удалении фильма.`))
   }
 
   function handleMovieLike(data) {
-    mainApi.getSaveMovie()
-    .then((saved) => {
-      const isLiked = saved.some(item => item.movieId === data.id);
-      const movie = saved.filter(item => item.movieId === data.id);
-      mainApi.handleLike(data, isLiked, movie[0])
-        .then(res => {
-          // setSarchedMovies((state) => state.map((c) => {
-          //   return c._id === res._id ? res: c}));
-            console.log((state) => state.map((c) => {
-            return c._id === res._id ? res: c}));
-            // sarchedMovies,
-          // const movies = ((state) => state.map((c) => {
-          //   return c._id === res._id ? res : c}));
-          // localStorage.setItem('allMovies', JSON.stringify(movies))
+    const isLiked = myMovies.some(item => item.id === data.id);
+    if (isLiked) {
+      handleMovieDelete(data);
+    } else{
+      mainApi.handleLike(data)
+      .then(async data => {
+        const movies = await [data, ...myMovies]
+        await localStorage.setItem('myMovies', JSON.stringify(movies));
+        setMyMovies(JSON.parse(localStorage.getItem('myMovies')));
       })
-      .catch(err => console.error(`Ошибка ${err} при обработке лайка.`));
-    })
+      .catch(err => console.error(`Ошибка ${err} при обработке лайка.`))
+    }
   }
 
   function handleOut() {
@@ -108,39 +111,68 @@ export default function App() {
       .catch(err => console.error(`Ошибка ${err}. Не авторизировано.`));
   }
 
-  function selectMovies(data) {
-    let sarchedMovie = data.filter(item => (
-      item.nameRU.toLowerCase().includes(localStorage.getItem('phrase').toString().toLowerCase())
-      ));
-    if (localStorage.getItem('checked')) {
-      sarchedMovie = sarchedMovie.filter(item => (item.duration < 40))
-    };
-    return sarchedMovie;
+  function preloader() {
+    loader(part)
   }
 
+  function loader(data) {
+    setShowPreloader(true)
+    const movies = data.slice();
+    let items = movies.splice(0, amountCard);
+    setPart(movies);
+    setAllMovies(allMovies.concat(items));
+    if (movies.length === 0) {
+      setShowPreloader(false)
+    }
+}
+
   function getAllMovies() {
-   return moviesApi.getAllMovies()
-    .then((res) => {
-      return selectMovies(res);
-    })
+    setErrMessage('');
+    allMovies.length = 0;
+      return moviesApi.getAllMovies()
+      .then((res) => {
+        const foundMovies = selectMovies(res);
+        if (!localStorage.getItem('phrase')) {
+          setErrMessage('Нужно ввести ключевое слово');
+        } else if (foundMovies.length === 0) {
+          setErrMessage('Ничего не найдено');
+          setShowPreloader(false);
+        } else {
+          loader(foundMovies);
+        }
+      })
+      .catch(() => {
+          setErrMessage("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
+      })
   }
 
   function getMyMovies() {
-    return mainApi.getSaveMovie()
+   mainApi.getSaveMovie()
     .then((res) => {
       localStorage.setItem('myMovies', JSON.stringify(res));
-      return selectMovies(res);
+      setMyMovies(res);
     })
     .catch(err => console.error(`Ошибка ${err} при загрузке фильмов.`))
   }
 
+  function searchMovie() {
+    setErrMessage('');
+    const foundMovies = selectMovies(JSON.parse(localStorage.getItem('myMovies')));
+    if (foundMovies.length === 0) {
+      setErrMessage('Ничего не найдено');
+    } else {
+      setMyMovies(foundMovies)
+    }
+  }
+
   useEffect(() => {
     if(loggedIn) {
+      getMyMovies();
       history.push('/movies');
     } else {
       getInfo();
     }
-  }, [loggedIn]);
+  }, [loggedIn, history]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -174,16 +206,18 @@ export default function App() {
           <ProtectedRoute loggedIn={loggedIn}
             path='/movies'
             funcBtn={handleMovieLike}
-            getAllMovies={getAllMovies}
-            setter={setSarchedMovies}
-            getter={sarchedMovies}
+            searchMovie={getAllMovies}
+            errMessage={errMessage}
+            preload={preloader}
+            showPreloader={showPreloader}
+            data={allMovies}
             component={Movies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/saved-movies'
+            searchMovie={searchMovie}
+            errMessage={errMessage}
             funcBtn={handleMovieDelete}
-            getMyMovies={getMyMovies}
-            // setter={setmyMovies}
-            // getter={selectMovies(myMovies)}
+            data={myMovies}
             component={SavedMovies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/profile'
@@ -191,9 +225,10 @@ export default function App() {
             onSubmit={handleUpdateUser}
             component={Profile} />
 
-          <Route path='/*'>
-            <ErrorNotFound />
-          </Route>
+          <ProtectedRoute loggedIn={loggedIn}
+            path='/'
+            component={ErrorNotFound} />
+
         </Switch>
       </div>
     </CurrentUserContext.Provider>

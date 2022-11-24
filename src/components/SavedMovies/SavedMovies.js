@@ -3,44 +3,18 @@ import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
-import { useEffect, useState } from 'react';
 
-export default function SavedMovies({ loggedIn, funcBtn, getMyMovies }) {
-
-  const [renderMovies, setRenderMovies] = useState([]);
-  const [errMessage, setErrMessage] = useState('');
-
-  useEffect(() => {
-    loader()
-  }, [])
-
-  useEffect(() => {
-  }, [renderMovies])
-
-  function loader() {
-    getMyMovies()
-    .then(() => {
-      setRenderMovies(JSON.parse(localStorage.getItem('myMovies')))
-    })
-  }
+export default function SavedMovies({ loggedIn, searchMovie, errMessage, funcBtn, data }) {
 
   function search() {
-    setErrMessage('');
-    getMyMovies()
-    .then((res) => {
-      if (res.length === 0) {
-        setErrMessage('Ничего не найдено');
-        return
-      }
-      setRenderMovies(res)
-    })
+    searchMovie()
   }
 
   return (
     <main className='savedMovies'>
       <Header loggedIn={loggedIn} />
       <SearchForm onSub={search} />
-      <MoviesCardList movies={renderMovies}
+      <MoviesCardList movies={data}
         errMessage={errMessage}
         funcBtn={funcBtn} classBtn={'moviesCard__btnDel'} />
       <Footer />
