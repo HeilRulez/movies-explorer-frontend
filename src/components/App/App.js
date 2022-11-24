@@ -46,8 +46,8 @@ export default function App() {
       });
   }
 
-  function onRegister(email, password, name) {
-    return mainApi.signup(email, password, name)
+  function onRegister(name, email, password) {
+    return mainApi.signup(name, email, password)
     .then(res => {
       if(res) {
         history.push('/signin');
@@ -225,9 +225,11 @@ export default function App() {
             onSubmit={handleUpdateUser}
             component={Profile} />
 
-          <Route path='/*'>
-            <ErrorNotFound />
-          </Route>
+          <ProtectedRoute loggedIn={loggedIn}
+            path='/ggg'
+            component={ErrorNotFound} />
+            {/* <ErrorNotFound /> */}
+          {/* </ProtectedRoute> */}
         </Switch>
       </div>
     </CurrentUserContext.Provider>

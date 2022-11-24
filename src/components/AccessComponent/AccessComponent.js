@@ -15,7 +15,7 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
   function handleSubmit(e) {
     e.preventDefault();
     if (link === '/signin') {
-      onSubmit(values.email, values.password, values.userName)
+      onSubmit(values.userName, values.email, values.password)
       .then(() => {
         resetForm();
       })

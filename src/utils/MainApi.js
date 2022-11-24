@@ -92,7 +92,7 @@ class MainApi {
       .then(res => this._checkResponse(res))
     }
 
-  signup(email, password, name) {
+  signup(name, email, password) {
   return fetch(`${this._baseUrl}/signup`, {
       method: 'POST',
       headers: {
