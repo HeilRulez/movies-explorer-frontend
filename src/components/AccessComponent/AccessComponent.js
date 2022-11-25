@@ -45,7 +45,7 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
             <input className="access-form__input" type="email"
               {...register('email', {
                 required: 'Не должно быть пустым',
-                pattern: {value: /[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}/,
+                pattern: {value: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-z]{2,4}/,
                           message: 'Введите E-mail адрес'}
               })} />
             <span className="access-form__text-error">{errors?.email && errors?.email?.message}</span>
@@ -58,7 +58,7 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
           </div>
           <div>
             <span className="access-form__text-error btn-err" id="btn-submit-error">{reqMessage}</span>
-            <button className={`access-form__btn-submit ${(isDirty && !isValid) && 'access-form__btn-submit_disable'}`}
+            <button className={`access-form__btn-submit ${(!isValid) && 'access-form__btn-submit_disable'}`}
               type="submit" disabled={!isValid}>{btnText}</button>
             <p className="access__text-forLink">
               {linkPreText}

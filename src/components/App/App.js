@@ -1,6 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
+import * as cs from '../../utils/constants';
 import AccessComponent from '../AccessComponent/AccessComponent';
 import Main from '../Main/Main';
 import Profile from '../Profile/Profile';
@@ -23,8 +24,16 @@ export default function App() {
   const [part, setPart] = useState([]);
   const [myMovies, setMyMovies] = useState([]);
   const [showPreloader, setShowPreloader] = useState(false);
-  const amountCard = (window.screen.width < '1280' ? (2) : (3));
   const history = useHistory();
+
+  useEffect(() => {
+    if(loggedIn) {
+      history.push('/movies');
+      getMyMovies();
+    } else {
+      getInfo();
+    }
+  }, [loggedIn, history]);
 
   function resErrMes() {
     setTimeout(() => setInfoMessage(''), 3000);
@@ -118,7 +127,7 @@ export default function App() {
   function loader(data) {
     setShowPreloader(true)
     const movies = data.slice();
-    let items = movies.splice(0, amountCard);
+    let items = movies.splice(0, cs.amountCard);
     setPart(movies);
     setAllMovies(allMovies.concat(items));
     if (movies.length === 0) {
@@ -164,15 +173,6 @@ export default function App() {
       setMyMovies(foundMovies)
     }
   }
-
-  useEffect(() => {
-    if(loggedIn) {
-      getMyMovies();
-      history.push('/movies');
-    } else {
-      getInfo();
-    }
-  }, [loggedIn, history]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -225,9 +225,9 @@ export default function App() {
             onSubmit={handleUpdateUser}
             component={Profile} />
 
-          <ProtectedRoute loggedIn={loggedIn}
-            path='/'
-            component={ErrorNotFound} />
+          <Route path='/*'>
+            <ErrorNotFound />
+          </Route>
 
         </Switch>
       </div>
