@@ -30,7 +30,7 @@ export default function App() {
   useEffect(() => {
     if(loggedIn) {
       // history.push('/movies');
-      getMyMovies();
+      // getMyMovies();
     } else {
       getInfo();
     }
@@ -48,10 +48,7 @@ export default function App() {
           setCurrentUser(res);
         }
       })
-      .then(() => {
-        //history.push('/')
-      })
-
+      .then(() => history.push('/movies'))
       .catch(err => {
         resErrMes();
         setInfoMessage('Неверные данные авторизации!\n Попробуйте ещё раз.');
@@ -62,10 +59,9 @@ export default function App() {
   function onRegister(name, email, password) {
     return mainApi.signup(name, email, password)
     .then(res => {
-      getInfo()
-
-        // history.push('/movies');
-
+      if(res._id) {
+        onLogin(email, password)
+      }
     })
     .catch((err) => {
       resErrMes();

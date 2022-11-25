@@ -4,11 +4,10 @@ import { Link } from 'react-router-dom';
 
 export default function AccessComponent({ link, linkPreText, linkText, headerText, btnText, reqMessage, onSubmit }) {
 
-
   const { register, formState: {errors, isValid}, handleSubmit, reset } = useForm({mode: "onChange"});
 
   function submit(data) {
-    const { userName, email, password } = data
+    const { userName, email, password } = data;
     if (link === '/signin') {
       onSubmit(userName, email, password)
       .then(() => {

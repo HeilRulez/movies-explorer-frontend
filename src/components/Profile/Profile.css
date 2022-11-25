@@ -44,7 +44,7 @@
   color: #000000;
   display: inline;
   margin: 0;
-  padding: 16px 0 ;
+  padding: 16px 0 0;
 }
 
 .form__input {
@@ -57,12 +57,23 @@
   display: inline;
   border: none;
   margin: 0;
-  padding: 0;
+  padding-bottom: 6px;
   font-family: 'Inter';
 }
 
 .form__input:focus {
   outline:none;
+}
+
+.form__text-error {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #FF3055;
+  padding-top: 6px;
+  min-height: 12px;
+  display: block;
 }
 
 .form__line {
@@ -91,6 +102,10 @@
 
 .form__submit:hover {
   opacity: .6;
+}
+
+.form__submit_disable:hover {
+  opacity: 1;
 }
 
 .profile__btn {

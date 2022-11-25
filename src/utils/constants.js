@@ -4,4 +4,5 @@ export const configApi = {
   // baseUrl: 'https://api.tvoyomesto.nomorepartiesxyz.ru',
   type: 'application/json',
   amountCard: (window.screen.width < '1280' ? (2) : (3)),
+  startAmountCard: (window.screen.width < '1280' ? (2) : (3)),
 }
