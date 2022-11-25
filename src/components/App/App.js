@@ -1,7 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import * as cs from '../../utils/constants';
+import { configApi } from '../../utils/constants';
 import AccessComponent from '../AccessComponent/AccessComponent';
 import Main from '../Main/Main';
 import Profile from '../Profile/Profile';
@@ -26,14 +26,15 @@ export default function App() {
   const [showPreloader, setShowPreloader] = useState(false);
   const history = useHistory();
 
+
   useEffect(() => {
     if(loggedIn) {
-      history.push('/movies');
+      // history.push('/movies');
       getMyMovies();
     } else {
       getInfo();
     }
-  }, [loggedIn, history]);
+  }, [loggedIn]);
 
   function resErrMes() {
     setTimeout(() => setInfoMessage(''), 3000);
@@ -47,7 +48,10 @@ export default function App() {
           setCurrentUser(res);
         }
       })
-      .then(() => history.push('/'))
+      .then(() => {
+        //history.push('/')
+      })
+
       .catch(err => {
         resErrMes();
         setInfoMessage('Неверные данные авторизации!\n Попробуйте ещё раз.');
@@ -58,9 +62,10 @@ export default function App() {
   function onRegister(name, email, password) {
     return mainApi.signup(name, email, password)
     .then(res => {
-      if(res) {
-        history.push('/signin');
-      }
+      getInfo()
+
+        // history.push('/movies');
+
     })
     .catch((err) => {
       resErrMes();
@@ -105,6 +110,9 @@ export default function App() {
   function handleOut() {
     return mainApi.logOut()
     .then(() => {
+      localStorage.setItem('phrase', '');
+      // localStorage.setItem('phrase', '');
+      localStorage.setItem('myMovies', '');
       setLoggedIn(false);
       history.push('/');
     })
@@ -127,7 +135,7 @@ export default function App() {
   function loader(data) {
     setShowPreloader(true)
     const movies = data.slice();
-    let items = movies.splice(0, cs.amountCard);
+    let items = movies.splice(0, configApi.amountCard);
     setPart(movies);
     setAllMovies(allMovies.concat(items));
     if (movies.length === 0) {
@@ -138,21 +146,24 @@ export default function App() {
   function getAllMovies() {
     setErrMessage('');
     allMovies.length = 0;
+    if (!localStorage.getItem('phrase')) {
+      setErrMessage('Нужно ввести ключевое слово');
+    } else {
       return moviesApi.getAllMovies()
       .then((res) => {
         const foundMovies = selectMovies(res);
-        if (!localStorage.getItem('phrase')) {
-          setErrMessage('Нужно ввести ключевое слово');
-        } else if (foundMovies.length === 0) {
+         if (foundMovies.length === 0) {
           setErrMessage('Ничего не найдено');
           setShowPreloader(false);
         } else {
-          loader(foundMovies);
+          localStorage.setItem('movies', JSON.stringify(foundMovies));
+          // loader(foundMovies);
         }
       })
       .catch(() => {
           setErrMessage("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
       })
+    }
   }
 
   function getMyMovies() {
@@ -226,7 +237,7 @@ export default function App() {
             component={Profile} />
 
           <Route path='/*'>
-            <ErrorNotFound />
+            <ErrorNotFound loggedIn={loggedIn} />
           </Route>
 
         </Switch>

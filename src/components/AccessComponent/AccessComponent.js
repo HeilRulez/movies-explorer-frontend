@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default function AccessComponent({ link, linkPreText, linkText, headerText, btnText, reqMessage, onSubmit }) {
 
 
-  const { register, formState: {errors, isValid, isDirty}, handleSubmit, reset } = useForm({mode: "onChange"});
+  const { register, formState: {errors, isValid}, handleSubmit, reset } = useForm({mode: "onChange"});
 
   function submit(data) {
     const { userName, email, password } = data
@@ -25,7 +25,7 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
     <section className ='access'>
       <div className='access__container'>
         <div className='access__header'>
-          <div className='access__logo' />
+          <Link className="access__logo" to='/' />
           <h1 className ='access__title'>{headerText}</h1>
         </div>
         <form className='access-form' onSubmit={handleSubmit(submit)} name='access' noValidate>

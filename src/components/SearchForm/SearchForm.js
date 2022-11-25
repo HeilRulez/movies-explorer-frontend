@@ -1,13 +1,12 @@
 import './SearchForm.css';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
+
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox'
 
 export default function SearchForm({ onSub }) {
 
-  const [search, setSearch] = useState(localStorage.getItem('phrase'));
+  const [search, setSearch] = useState(localStorage.getItem('phrase') || '');
   const [checked, setChecked] = useState(localStorage.getItem('checked'));
-
-  const inpurRef = useRef();
 
   function handleChangeSearch(e) {
     setSearch(e.target.value);
@@ -29,10 +28,9 @@ export default function SearchForm({ onSub }) {
       <form className='searchForm__form' onSubmit={handleSubmit}>
         <div className='container__input'>
           <input className='searchForm__input'
-          onChange={handleChangeSearch}
-          value={search} name='searchMovie'
-          ref={inpurRef}
-          placeholder='Фильм'
+            onChange={handleChangeSearch}
+            value={search}
+            placeholder='Фильм'
            />
           <button className='searchForm__submit' type='submit' />
         </div>

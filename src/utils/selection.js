@@ -1,8 +1,8 @@
 export default function selectMovies(data) {
   let sarchedMovie = data.filter(item => (
-    item.nameRU.toLowerCase().includes(localStorage.getItem('phrase').toString().toLowerCase())
+    item.nameRU.toLowerCase().includes(JSON.parse(localStorage.getItem('searchParam')).phrase.toString().toLowerCase())
     ));
-  if (localStorage.getItem('checked')) {
+  if (JSON.parse(localStorage.getItem('searchParam')).checked) {
     sarchedMovie = sarchedMovie.filter(item => (item.duration < 40))
   };
   return sarchedMovie;

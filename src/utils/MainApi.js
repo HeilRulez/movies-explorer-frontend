@@ -1,4 +1,4 @@
-import * as cs from './constants.js';
+import * as cs from './constants';
 
 class MainApi {
   constructor({baseUrl, baseMovies, type}) {
@@ -59,7 +59,6 @@ class MainApi {
           })
         })
         .then(res => this._checkResponse(res))
-    // }
   }
 
   sendData(name, email) {
