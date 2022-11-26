@@ -31,6 +31,7 @@ export default function App() {
     if(loggedIn) {
       // history.push('/movies');
       // getMyMovies();
+      console.log(configApi.startAmountCard())
     } else {
       getInfo();
     }
