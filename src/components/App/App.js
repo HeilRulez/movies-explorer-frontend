@@ -26,12 +26,11 @@ export default function App() {
   const [showPreloader, setShowPreloader] = useState(false);
   const history = useHistory();
 
-
   useEffect(() => {
     if(loggedIn) {
       // history.push('/movies');
-      // getMyMovies();
       console.log(configApi.startAmountCard())
+      getMyMovies(); // Временно для просмотра
     } else {
       getInfo();
     }
@@ -47,6 +46,7 @@ export default function App() {
         if(res._id) {
           setLoggedIn(true);
           setCurrentUser(res);
+          getMyMovies();
         }
       })
       .then(() => history.push('/movies'))
@@ -106,10 +106,8 @@ export default function App() {
 
   function handleOut() {
     return mainApi.logOut()
-    .then(() => {
-      localStorage.setItem('phrase', '');
-      // localStorage.setItem('phrase', '');
-      localStorage.setItem('myMovies', '');
+    .then((res) => {
+      localStorage.clear();
       setLoggedIn(false);
       history.push('/');
     })
@@ -166,8 +164,9 @@ export default function App() {
   function getMyMovies() {
    mainApi.getSaveMovie()
     .then((res) => {
-      localStorage.setItem('myMovies', JSON.stringify(res));
-      setMyMovies(res);
+      const myMovies = res.filter(item => item.owner === currentUser._id)
+      localStorage.setItem('myMovies', JSON.stringify(myMovies));
+      setMyMovies(myMovies);
     })
     .catch(err => console.error(`Ошибка ${err} при загрузке фильмов.`))
   }

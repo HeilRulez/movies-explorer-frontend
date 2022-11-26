@@ -1,12 +1,14 @@
-import { useEffect, useRef } from 'react';
 import './FilterCheckbox.css';
+import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function FilterCheckbox({ checked }) {
 
   const ref = useRef();
+  const location = useLocation().pathname;
 
   useEffect(() => {
-    ref.current.checked = localStorage.getItem('checked')
+    ref.current.checked = localStorage.getItem(`checked${location}`)
   }, [])
 
 
