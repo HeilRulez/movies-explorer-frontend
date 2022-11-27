@@ -36,7 +36,7 @@
   padding: 10px 0 0 0;
 }
 
-.notFound__btn {
+.notFound__btn, .notFound__link {
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -48,6 +48,10 @@
   cursor: pointer;
   margin: 0;
   padding: 0;
+}
+
+.notFound__link {
+  text-decoration: none;
 }
 
 @media screen and (min-width: 560px){

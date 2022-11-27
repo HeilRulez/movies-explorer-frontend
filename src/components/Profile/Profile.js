@@ -1,25 +1,34 @@
 import './Profile.css';
-import Header from '../Header/Header';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import Header from '../Header/Header';
+import LoaderShow from '../LoaderShow/LoaderShow';
 
-export default function Profile ({ loggedIn, handleOut, onSubmit }) {
+export default function Profile ({ loggedIn, handleOut, onSubmit, reqMessage }) {
 
+  const { register, formState: { errors, isValid }, handleSubmit, setValue } = useForm({mode: "onChange"});
   const currentUser = useContext(CurrentUserContext);
-  const [email, setEmail] = useState(currentUser.email);
-  const [name, setName] = useState(currentUser.name);
+  const [disableBtn, setDisableBtn] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  function handleChangeEmail(e) {
-    setEmail(e.target.value);
+  useEffect(() => {
+    setValue('userName', currentUser.name);
+    setValue('email', currentUser.email);
+  }, [])
+
+  function check(e) {
+    if (e.target.name === 'userName') {
+      setDisableBtn(currentUser.name !== e.target.value)
+    } else if (e.target.name === 'email') {
+      setDisableBtn(currentUser.email !== e.target.value)
+    }
   }
 
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    onSubmit(name, email);
+  function submit(data) {
+    setLoading(true);
+    onSubmit(data.userName, data.email)
+    .then(() => setLoading(false))
   }
 
   function logOut() {
@@ -31,24 +40,37 @@ export default function Profile ({ loggedIn, handleOut, onSubmit }) {
       <Header loggedIn={loggedIn} />
       <div className='profile__container'>
         <h1 className='profile__title'>Привет, {currentUser.name}!</h1>
-        <form className='form' onSubmit={handleSubmit}>
+        <LoaderShow loading={loading} />
+        <form className='form' onChange={check} onSubmit={handleSubmit(submit)}>
           <div>
           <div className='form__container'>
-            <p className='form__lable'>Имя</p>
+            <p className='form__lable'>Имя
+            <span className="form__text-error">{errors?.userName && errors?.userName?.message}</span></p>
             <input className='form__input'
-              onChange={handleChangeName}
-              value={name} />
+              {...register('userName', {
+                required: 'Не должно быть пустым',
+                pattern: {value: /^[A-Za-zА-Яа-яЁё-\s]{2,30}$/,
+                          message: 'Недопустимые символы'},
+                minLength: {value: 2, message: 'Должно быть больше 2-х символов'},
+                maxLength: {value: 30, message: 'Должно быть больше 30-и символов'}
+              })} />
           </div>
           <p className='form__line'></p>
           <div className='form__container'>
-            <p className='form__lable'>E-mail</p>
+            <p className='form__lable'>E-mail
+              <span className="form__text-error">{errors?.email && errors?.email?.message}</span></p>
             <input className='form__input'
-              onChange={handleChangeEmail}
-              value={email}/>
+              {...register('email', {
+                required: 'Не должно быть пустым',
+                pattern: {value: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-z]{2,4}/,
+                message: 'Введите E-mail адрес'}
+              })} />
           </div>
 
           </div>
-          <button className='form__submit' type='submit'>Редактировать</button>
+          <span className="form__text-error profile-btn-err">{reqMessage}</span>
+          <button className={`form__submit ${(!isValid || !disableBtn) && 'form__submit_disable'}`}
+            type='submit' disabled={!isValid || !disableBtn}>Редактировать</button>
         </form>
         <button className='profile__btn' type="button" onClick={logOut} >Выйти из аккаунта</button>
       </div>

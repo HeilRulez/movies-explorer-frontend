@@ -1,7 +1,7 @@
 import './ErrorNotFound.css';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
-export default function ErrorNotFound() {
+export default function ErrorNotFound({ loggedIn }) {
 
   const history = useHistory();
 
@@ -17,7 +17,9 @@ export default function ErrorNotFound() {
           <p className='notFound__text'>Страница не найдена</p>
         </div>
       </div>
-      <button className ='notFound__btn' type="button" onClick={goBack}>Назад</button>
+      {loggedIn ? (
+        <button className ='notFound__btn' type="button" onClick={goBack}>Назад</button>
+      ) : (<Link className="notFound__link" to='/'>Назад</Link>)}
     </section>
   );
 }

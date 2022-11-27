@@ -1,14 +1,21 @@
 import './AccessComponent.css';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
 
-export default function AccessComponent({ link, linkPreText, linkText, headerText, btnText, reqMessage, onSubmit }) {
+export default function AccessComponent({ loggedIn, link, linkPreText, linkText, headerText, btnText, reqMessage, onSubmit }) {
 
+  const { register, formState: {errors, isValid}, handleSubmit, reset } = useForm({mode: "onChange"});
+  const history = useHistory();
 
-  const { register, formState: {errors, isValid, isDirty}, handleSubmit, reset } = useForm({mode: "onChange"});
+  useEffect(() => {
+    if(loggedIn) {
+      history.push('/');
+    }
+  }, [loggedIn])
 
   function submit(data) {
-    const { userName, email, password } = data
+    const { userName, email, password } = data;
     if (link === '/signin') {
       onSubmit(userName, email, password)
       .then(() => {
@@ -25,7 +32,7 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
     <section className ='access'>
       <div className='access__container'>
         <div className='access__header'>
-          <div className='access__logo' />
+          <Link className="access__logo" to='/' />
           <h1 className ='access__title'>{headerText}</h1>
         </div>
         <form className='access-form' onSubmit={handleSubmit(submit)} name='access' noValidate>
@@ -45,7 +52,7 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
             <input className="access-form__input" type="email"
               {...register('email', {
                 required: 'Не должно быть пустым',
-                pattern: {value: /[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}/,
+                pattern: {value: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-z]{2,4}/,
                           message: 'Введите E-mail адрес'}
               })} />
             <span className="access-form__text-error">{errors?.email && errors?.email?.message}</span>
@@ -58,7 +65,7 @@ export default function AccessComponent({ link, linkPreText, linkText, headerTex
           </div>
           <div>
             <span className="access-form__text-error btn-err" id="btn-submit-error">{reqMessage}</span>
-            <button className={`access-form__btn-submit ${(isDirty && !isValid) && 'access-form__btn-submit_disable'}`}
+            <button className={`access-form__btn-submit ${(!isValid) && 'access-form__btn-submit_disable'}`}
               type="submit" disabled={!isValid}>{btnText}</button>
             <p className="access__text-forLink">
               {linkPreText}
