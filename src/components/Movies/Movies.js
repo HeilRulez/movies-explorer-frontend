@@ -21,6 +21,10 @@ export default function Movies({ loggedIn, funcBtn, getAllMovies }) {
     hendleShow(JSON.parse(localStorage.getItem('selectMovies')) || []);
   }, [])
 
+  useEffect(() => {
+    setErrMessage('')
+  }, [])
+
   function adder() {
     const add = part.slice(0, configApi.amountCard);
     setAllMovies(allMovies.concat(add));

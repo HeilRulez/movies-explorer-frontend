@@ -1,5 +1,5 @@
 import './SavedMovies.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -8,6 +8,10 @@ import Footer from '../Footer/Footer';
 export default function SavedMovies({ loggedIn, funcBtn, searchMovie, data }) {
 
   const [errMessage, setErrMessage] = useState('');
+
+  useEffect(() => {
+    setErrMessage('')
+  }, [])
 
   function search(phrase, checked) {
     setErrMessage('');
