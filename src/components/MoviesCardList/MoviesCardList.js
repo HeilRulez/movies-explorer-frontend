@@ -6,7 +6,7 @@ export default function MoviesCardList({ movies, errMessage, funcBtn, classBtn }
   function checkLike(data) {
     let classLike;
     const myMovies = JSON.parse(localStorage.getItem('myMovies'));
-    if (myMovies.some(item => item.movieId === data.id.toString())) {
+    if (myMovies.some(item => item.movieId === data.id)) {
       classLike = 'moviesCard__btnAdd';
     } else {
       classLike = 'moviesCard__btnNoAdd';

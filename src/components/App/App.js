@@ -39,7 +39,6 @@ export default function App() {
         if(res._id) {
           setLoggedIn(true);
           setCurrentUser(res);
-          getMyMovies();
         }
       })
       .then(() => history.push('/movies'))
@@ -81,9 +80,9 @@ export default function App() {
   }
 
   function handleMovieDelete(data) {
-    mainApi.reqDelMovie(data._id)
+    mainApi.reqDelMovie(data.movieId)
       .then((res) => {
-        const movies = myMovies.filter((item) => item._id !== res._id);
+        const movies = myMovies.filter((item) => item.movieId !== res.movieId);
         localStorage.setItem('myMovies', JSON.stringify(movies));
         setMyMovies(movies);
       })
@@ -93,7 +92,7 @@ export default function App() {
   function handleMovieLike(data) {
     const isLiked = myMovies.some(item => item.movieId === data.id);
     if (isLiked) {
-      const item = myMovies.filter(item => (item.movieId === data.id))[0];
+      const item = myMovies.filter(item => item.movieId === data.id)[0];
       handleMovieDelete(item);
     } else {
       mainApi.handleLike(data)
