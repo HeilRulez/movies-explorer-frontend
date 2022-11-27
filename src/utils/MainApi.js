@@ -11,6 +11,10 @@ class MainApi {
     if (res.ok) {
       return res.json()
     } else {
+      if (res.status === 409) {
+        const error = new Error(res.status);
+        throw error
+      }
       return new Promise.reject(`Ошибка: ${res.status}`);
     }
   }
@@ -22,8 +26,8 @@ class MainApi {
       .then(res => this._checkResponse(res))
   }
 
-  reqDelMovie(movie) {
-    return fetch(`${this._baseUrl}/movies/${movie}`, {
+  reqDelMovie(id) {
+    return fetch(`${this._baseUrl}/movies/${id}`, {
         method: 'DELETE',
         credentials: 'include'
       })
@@ -55,7 +59,7 @@ class MainApi {
             "nameRU": data.nameRU,
             "nameEN": data.nameEN,
             "thumbnail": `${this._baseMovies}${data.image.url}`,
-            "id": data.id
+            "movieId": data.id
           })
         })
         .then(res => this._checkResponse(res))

@@ -1,7 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
-import { configApi } from '../../utils/constants';
 import AccessComponent from '../AccessComponent/AccessComponent';
 import Main from '../Main/Main';
 import Profile from '../Profile/Profile';
@@ -19,18 +18,12 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [infoMessage, setInfoMessage] = useState('');
-  const [errMessage, setErrMessage] = useState('');
-  const [allMovies, setAllMovies] = useState([]);
-  const [part, setPart] = useState([]);
   const [myMovies, setMyMovies] = useState([]);
-  const [showPreloader, setShowPreloader] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
     if(loggedIn) {
-      // history.push('/movies');
-      console.log(configApi.startAmountCard())
-      getMyMovies(); // Временно для просмотра
+      getMyMovies();
     } else {
       getInfo();
     }
@@ -72,32 +65,41 @@ export default function App() {
   }
 
   function handleUpdateUser(name, email) {
-    mainApi.sendData(name, email)
+    return mainApi.sendData(name, email)
     .then((res) => {
+      resErrMes();
+      setInfoMessage('Данные пользователя успешно изменены.');
       setCurrentUser(res);
     })
-    .catch(err => console.error(`Ошибка ${err} при отправке данных профиля.`));
+    .catch((err) => {
+      if (err.message === '409') {
+        resErrMes();
+        setInfoMessage('Пользователь с таким E-mail уже зарегистрирован.');
+      }
+      console.error(`Ошибка ${err} при отправке данных профиля.`)
+  });
   }
 
   function handleMovieDelete(data) {
-    mainApi.reqDelMovie(data.id)
-      .then(async () => {
-        const movies = await myMovies.filter((item) => item.id !== data.id);
-        setMyMovies(movies)
+    mainApi.reqDelMovie(data._id)
+      .then((res) => {
+        const movies = myMovies.filter((item) => item._id !== res._id);
         localStorage.setItem('myMovies', JSON.stringify(movies));
+        setMyMovies(movies);
       })
     .catch(err => console.error(`Ошибка ${err} при удалении фильма.`))
   }
 
   function handleMovieLike(data) {
-    const isLiked = myMovies.some(item => item.id === data.id);
+    const isLiked = myMovies.some(item => item.movieId === data.id);
     if (isLiked) {
-      handleMovieDelete(data);
-    } else{
+      const item = myMovies.filter(item => (item.movieId === data.id))[0];
+      handleMovieDelete(item);
+    } else {
       mainApi.handleLike(data)
-      .then(async data => {
-        const movies = await [data, ...myMovies]
-        await localStorage.setItem('myMovies', JSON.stringify(movies));
+      .then(data => {
+        const movies = [data, ...myMovies]
+        localStorage.setItem('myMovies', JSON.stringify(movies));
         setMyMovies(JSON.parse(localStorage.getItem('myMovies')));
       })
       .catch(err => console.error(`Ошибка ${err} при обработке лайка.`))
@@ -106,7 +108,7 @@ export default function App() {
 
   function handleOut() {
     return mainApi.logOut()
-    .then((res) => {
+    .then(() => {
       localStorage.clear();
       setLoggedIn(false);
       history.push('/');
@@ -123,42 +125,12 @@ export default function App() {
       .catch(err => console.error(`Ошибка ${err}. Не авторизировано.`));
   }
 
-  function preloader() {
-    loader(part)
-  }
-
-  function loader(data) {
-    setShowPreloader(true)
-    const movies = data.slice();
-    let items = movies.splice(0, configApi.amountCard);
-    setPart(movies);
-    setAllMovies(allMovies.concat(items));
-    if (movies.length === 0) {
-      setShowPreloader(false)
-    }
-}
-
   function getAllMovies() {
-    setErrMessage('');
-    allMovies.length = 0;
-    if (!localStorage.getItem('phrase')) {
-      setErrMessage('Нужно ввести ключевое слово');
-    } else {
-      return moviesApi.getAllMovies()
+    return moviesApi.getAllMovies()
       .then((res) => {
-        const foundMovies = selectMovies(res);
-         if (foundMovies.length === 0) {
-          setErrMessage('Ничего не найдено');
-          setShowPreloader(false);
-        } else {
-          localStorage.setItem('movies', JSON.stringify(foundMovies));
-          // loader(foundMovies);
-        }
+        localStorage.setItem('allMovies', JSON.stringify(res));
+        return res;
       })
-      .catch(() => {
-          setErrMessage("Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз");
-      })
-    }
   }
 
   function getMyMovies() {
@@ -171,13 +143,13 @@ export default function App() {
     .catch(err => console.error(`Ошибка ${err} при загрузке фильмов.`))
   }
 
-  function searchMovie() {
-    setErrMessage('');
-    const foundMovies = selectMovies(JSON.parse(localStorage.getItem('myMovies')));
+  function searchInMyMovie(phrase, checked) {
+    const savedMovies = JSON.parse(localStorage.getItem('myMovies'));
+    const foundMovies = selectMovies(savedMovies, phrase, checked);
     if (foundMovies.length === 0) {
-      setErrMessage('Ничего не найдено');
+      return 'Ничего не найдено';
     } else {
-      setMyMovies(foundMovies)
+      setMyMovies(foundMovies);
     }
   }
 
@@ -186,7 +158,7 @@ export default function App() {
       <div className="app">
         <Switch>
           <Route path='/signin'>
-            <AccessComponent
+            <AccessComponent loggedIn={loggedIn}
               link={'/signup'}
               linkPreText={'Ещё не зарегистрированы?'}
               linkText={'Регистрация'}
@@ -196,7 +168,7 @@ export default function App() {
               onSubmit={onLogin} />
           </Route>
           <Route path='/signup'>
-            <AccessComponent
+            <AccessComponent loggedIn={loggedIn}
               link={'/signin'}
               linkPreText={'Уже зарегистрированы?'}
               linkText={'Войти'}
@@ -213,23 +185,19 @@ export default function App() {
           <ProtectedRoute loggedIn={loggedIn}
             path='/movies'
             funcBtn={handleMovieLike}
-            searchMovie={getAllMovies}
-            errMessage={errMessage}
-            preload={preloader}
-            showPreloader={showPreloader}
-            data={allMovies}
+            getAllMovies={getAllMovies}
             component={Movies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/saved-movies'
-            searchMovie={searchMovie}
-            errMessage={errMessage}
             funcBtn={handleMovieDelete}
+            searchMovie={searchInMyMovie}
             data={myMovies}
             component={SavedMovies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/profile'
             handleOut={handleOut}
             onSubmit={handleUpdateUser}
+            reqMessage={infoMessage}
             component={Profile} />
 
           <Route path='/*'>

@@ -1,10 +1,18 @@
 import './AccessComponent.css';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
 
-export default function AccessComponent({ link, linkPreText, linkText, headerText, btnText, reqMessage, onSubmit }) {
+export default function AccessComponent({ loggedIn, link, linkPreText, linkText, headerText, btnText, reqMessage, onSubmit }) {
 
   const { register, formState: {errors, isValid}, handleSubmit, reset } = useForm({mode: "onChange"});
+  const history = useHistory();
+
+  useEffect(() => {
+    if(loggedIn) {
+      history.push('/');
+    }
+  }, [loggedIn])
 
   function submit(data) {
     const { userName, email, password } = data;

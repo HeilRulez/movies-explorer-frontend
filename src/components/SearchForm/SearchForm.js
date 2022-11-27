@@ -1,5 +1,5 @@
 import './SearchForm.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox'
 import { useLocation } from 'react-router-dom';
 
@@ -9,19 +9,28 @@ export default function SearchForm({ onSub }) {
   const [search, setSearch] = useState(localStorage.getItem(`phrase${location}`) || '');
   const [checked, setChecked] = useState(localStorage.getItem(`checked${location}`));
 
+  useEffect(() => {
+    submit()
+  }, [checked])
+
   function handleChangeSearch(e) {
     setSearch(e.target.value);
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  function submit() {
     if (checked) {
       localStorage.setItem(`checked${location}`, true);
     } else {
       localStorage.setItem(`checked${location}`, '');
     }
     localStorage.setItem(`phrase${location}`, search);
-    onSub();
+    onSub(search, checked);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    submit();
+
   }
 
   return (

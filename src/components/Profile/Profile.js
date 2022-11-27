@@ -1,14 +1,16 @@
 import './Profile.css';
-import Header from '../Header/Header';
 import { useContext, useEffect, useState } from 'react';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { useForm } from 'react-hook-form';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import Header from '../Header/Header';
+import LoaderShow from '../LoaderShow/LoaderShow';
 
-export default function Profile ({ loggedIn, handleOut, onSubmit }) {
+export default function Profile ({ loggedIn, handleOut, onSubmit, reqMessage }) {
 
   const { register, formState: { errors, isValid }, handleSubmit, setValue } = useForm({mode: "onChange"});
   const currentUser = useContext(CurrentUserContext);
   const [disableBtn, setDisableBtn] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setValue('userName', currentUser.name);
@@ -24,7 +26,9 @@ export default function Profile ({ loggedIn, handleOut, onSubmit }) {
   }
 
   function submit(data) {
-    onSubmit(data.userName, data.email);
+    setLoading(true);
+    onSubmit(data.userName, data.email)
+    .then(() => setLoading(false))
   }
 
   function logOut() {
@@ -36,6 +40,7 @@ export default function Profile ({ loggedIn, handleOut, onSubmit }) {
       <Header loggedIn={loggedIn} />
       <div className='profile__container'>
         <h1 className='profile__title'>Привет, {currentUser.name}!</h1>
+        <LoaderShow loading={loading} />
         <form className='form' onChange={check} onSubmit={handleSubmit(submit)}>
           <div>
           <div className='form__container'>
@@ -63,6 +68,7 @@ export default function Profile ({ loggedIn, handleOut, onSubmit }) {
           </div>
 
           </div>
+          <span className="form__text-error profile-btn-err">{reqMessage}</span>
           <button className={`form__submit ${(!isValid || !disableBtn) && 'form__submit_disable'}`}
             type='submit' disabled={!isValid || !disableBtn}>Редактировать</button>
         </form>

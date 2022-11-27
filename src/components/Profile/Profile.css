@@ -82,6 +82,12 @@
   padding: 0;
 }
 
+.profile-btn-err {
+  position: relative;
+  top: 3vh;
+  align-self: center;
+}
+
 .form__submit {
   font-style: normal;
   font-weight: 400;
