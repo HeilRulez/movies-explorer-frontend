@@ -4,12 +4,14 @@ import { useForm } from 'react-hook-form';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
 import LoaderShow from '../LoaderShow/LoaderShow';
+import { configApi } from '../../utils/constants';
 
 export default function Profile ({ loggedIn, handleOut, onSubmit, reqMessage }) {
 
   const { register, formState: { errors, isValid }, handleSubmit, setValue } = useForm({mode: "onChange"});
   const currentUser = useContext(CurrentUserContext);
   const [disableBtn, setDisableBtn] = useState(false);
+  const [block, setBlock] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,16 +21,21 @@ export default function Profile ({ loggedIn, handleOut, onSubmit, reqMessage }) 
 
   function check(e) {
     if (e.target.name === 'userName') {
-      setDisableBtn(currentUser.name !== e.target.value)
+      setDisableBtn(currentUser.name === e.target.value)
     } else if (e.target.name === 'email') {
-      setDisableBtn(currentUser.email !== e.target.value)
+      setDisableBtn(currentUser.email === e.target.value)
     }
   }
 
   function submit(data) {
+    setBlock(true);
+    setDisableBtn(true);
     setLoading(true);
     onSubmit(data.userName, data.email)
-    .then(() => setLoading(false))
+    .then(() => {
+      setBlock(false);
+      setLoading(false);
+    })
   }
 
   function logOut() {
@@ -46,7 +53,7 @@ export default function Profile ({ loggedIn, handleOut, onSubmit, reqMessage }) 
           <div className='form__container'>
             <p className='form__lable'>Имя
             <span className="form__text-error">{errors?.userName && errors?.userName?.message}</span></p>
-            <input className='form__input'
+            <input className='form__input' disabled={block}
               {...register('userName', {
                 required: 'Не должно быть пустым',
                 pattern: {value: /^[A-Za-zА-Яа-яЁё-\s]{2,30}$/,
@@ -59,18 +66,18 @@ export default function Profile ({ loggedIn, handleOut, onSubmit, reqMessage }) 
           <div className='form__container'>
             <p className='form__lable'>E-mail
               <span className="form__text-error">{errors?.email && errors?.email?.message}</span></p>
-            <input className='form__input'
+            <input className='form__input' disabled={block}
               {...register('email', {
                 required: 'Не должно быть пустым',
-                pattern: {value: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-z]{2,4}/,
+                pattern: {value: configApi.regex,
                 message: 'Введите E-mail адрес'}
               })} />
           </div>
 
           </div>
           <span className="form__text-error profile-btn-err">{reqMessage}</span>
-          <button className={`form__submit ${(!isValid || !disableBtn) && 'form__submit_disable'}`}
-            type='submit' disabled={!isValid || !disableBtn}>Редактировать</button>
+          <button className={`form__submit ${(disableBtn || !isValid) && 'form__submit_disable'}`}
+            type='submit' disabled={disableBtn || !isValid}>Редактировать</button>
         </form>
         <button className='profile__btn' type="button" onClick={logOut} >Выйти из аккаунта</button>
       </div>

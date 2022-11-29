@@ -5,12 +5,13 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
-export default function SavedMovies({ loggedIn, funcBtn, searchMovie, data }) {
+export default function SavedMovies({ loggedIn, funcBtn, searchMovie, data, handleDownload }) {
 
   const [errMessage, setErrMessage] = useState('');
 
   useEffect(() => {
-    setErrMessage('')
+    setErrMessage('');
+    handleDownload();
   }, [])
 
   function search(phrase, checked) {
