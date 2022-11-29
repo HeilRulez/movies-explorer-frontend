@@ -25,12 +25,18 @@ export default function App() {
     if(loggedIn) {
       getMyMovies();
     } else {
+      logout();
       getInfo();
     }
   }, [loggedIn]);
 
   function resErrMes() {
     setTimeout(() => setInfoMessage(''), 3000);
+  }
+
+  function logout() {
+    localStorage.clear();
+    setLoggedIn(false);
   }
 
   function onLogin(email, password) {
@@ -74,8 +80,13 @@ export default function App() {
       if (err.message === '409') {
         resErrMes();
         setInfoMessage('Пользователь с таким E-mail уже зарегистрирован.');
+      } else if (err.message === '401') {
+        logout();
+        history.push('/');
+        console.error(`Ошибка ${err}. Не авторизировано.`)
+      } else {
+        console.error(`Ошибка ${err} при отправке данных профиля.`)
       }
-      console.error(`Ошибка ${err} при отправке данных профиля.`)
   });
   }
 
@@ -86,7 +97,15 @@ export default function App() {
         localStorage.setItem('myMovies', JSON.stringify(movies));
         setMyMovies(movies);
       })
-    .catch(err => console.error(`Ошибка ${err} при удалении фильма.`))
+    .catch((err) => {
+      if (err.message === '401') {
+        logout();
+        history.push('/');
+        console.error(`Ошибка ${err}. Не авторизировано.`)
+      } else {
+        console.error(`Ошибка ${err.status} при удалении фильма.`)
+      }
+    })
   }
 
   function handleMovieLike(data) {
@@ -101,15 +120,22 @@ export default function App() {
         localStorage.setItem('myMovies', JSON.stringify(movies));
         setMyMovies(JSON.parse(localStorage.getItem('myMovies')));
       })
-      .catch(err => console.error(`Ошибка ${err} при обработке лайка.`))
+      .catch((err) => {
+        if (err.message === '401') {
+          logout();
+          history.push('/');
+          console.error(`Ошибка ${err}. Не авторизировано.`)
+        } else {
+          console.error(`Ошибка ${err} при обработке лайка.`)
+        }
+    })
     }
   }
 
   function handleOut() {
     return mainApi.logOut()
     .then(() => {
-      localStorage.clear();
-      setLoggedIn(false);
+      logout();
       history.push('/');
     })
     .catch(err => console.error(`Ошибка ${err} при выходе из аккаунта.`))
@@ -130,6 +156,15 @@ export default function App() {
         localStorage.setItem('allMovies', JSON.stringify(res));
         return res;
       })
+      .catch((err) => {
+        if (err.message === '401') {
+          logout();
+          history.push('/');
+          console.error(`Ошибка ${err}. Не авторизировано.`)
+        } else {
+          console.error(`Ошибка ${err} при получении всх фильмов.`)
+        }
+    });
   }
 
   function getMyMovies() {
@@ -139,7 +174,15 @@ export default function App() {
       localStorage.setItem('myMovies', JSON.stringify(myMovies));
       setMyMovies(myMovies);
     })
-    .catch(err => console.error(`Ошибка ${err} при загрузке фильмов.`))
+    .catch((err) => {
+      if (err.message === '401') {
+        logout();
+        history.push('/');
+        console.error(`Ошибка ${err}. Не авторизировано.`)
+      } else {
+        console.error(`Ошибка ${err} при загрузке фильмов.`)
+      }
+  })
   }
 
   function searchInMyMovie(phrase, checked) {
@@ -191,6 +234,7 @@ export default function App() {
             funcBtn={handleMovieDelete}
             searchMovie={searchInMyMovie}
             data={myMovies}
+            handleDownload={getMyMovies}
             component={SavedMovies} />
           <ProtectedRoute loggedIn={loggedIn}
             path='/profile'

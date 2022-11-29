@@ -14,6 +14,9 @@ class MainApi {
       if (res.status === 409) {
         const error = new Error(res.status);
         throw error
+      } else if (res.status === 401) {
+        const error = new Error(res.status);
+        throw error
       }
       return new Promise.reject(`Ошибка: ${res.status}`);
     }

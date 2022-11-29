@@ -26,9 +26,9 @@ export default function Movies({ loggedIn, funcBtn, getAllMovies }) {
   }, [])
 
   function adder() {
-    const add = part.slice(0, configApi.amountCard);
+    const add = part.slice(0, configApi.amountCard());
     setAllMovies(allMovies.concat(add));
-    const rem = part.slice(configApi.amountCard);
+    const rem = part.slice(configApi.amountCard());
     if (rem.length > 0) {
       setPart(rem);
     } else {
